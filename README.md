@@ -1,5 +1,6 @@
 # 🧰 SwiftOpenAI OpenaAI SDK
 ![Portada](https://user-images.githubusercontent.com/74316958/226199102-640e639d-a46f-4891-9d03-140d8f9a5efc.png)
+[![Build & Tests](https://github.com/SwiftBeta/SwiftOpenAI/actions/workflows/swift.yml/badge.svg?branch=main)](https://github.com/SwiftBeta/SwiftOpenAI/actions/workflows/swift.yml)
 [![Youtube Views](https://img.shields.io/youtube/channel/views/UC2MAP8k0bzwq_OAA_zQw27A?style=social)](https://twitter.com/swiftbeta)
 [![YouTube Channel Subscribers](https://img.shields.io/youtube/channel/subscribers/UC2MAP8k0bzwq_OAA_zQw27A?style=social)](https://youtube.com/swiftbeta?sub_confirmation=1)
 ![GitHub Followers](https://img.shields.io/github/followers/swiftbeta?style=social)
