@@ -12,7 +12,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     
     private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
     
-    public init(api: API,
+    public init(api: API = API(),
          apiKey: String,
          createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute) {
         self.api = api
