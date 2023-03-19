@@ -1,25 +1,28 @@
 import Foundation
 
 protocol OpenAIProtocol {
-    func createChatCompletion(model: OpenAIModelType, messages: [MessageChatGPT]) async -> ChatCompletionDataModel?
+    func createChatCompletions(model: OpenAIModelType,
+                              messages: [MessageChatGPT],
+                              optionalParameters: ChatCompletionsOptionalParameters?) async throws -> ChatCompletionsDataModel?
 }
 
-public class OpenAI: OpenAIProtocol {
+public class SwiftOpenAI: OpenAIProtocol {
     private let api: API
     private let apiKey: String
     
-    private let createChatCompletionRequest: CreateChatCompletionRequest.Init
+    private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
     
     public init(api: API,
          apiKey: String,
-         createChatCompletionRequest: @escaping CreateChatCompletionRequest.Init = CreateChatCompletionRequest().execute) {
+         createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute) {
         self.api = api
         self.apiKey = apiKey
-        self.createChatCompletionRequest = createChatCompletionRequest
+        self.createChatCompletionsRequest = createChatCompletionsRequest
     }
     
-    public func createChatCompletion(model: OpenAIModelType,
-                                     messages: [MessageChatGPT]) async -> ChatCompletionDataModel? {
-        await createChatCompletionRequest(api, apiKey, model, messages)
+    public func createChatCompletions(model: OpenAIModelType,
+                                     messages: [MessageChatGPT],
+                                     optionalParameters: ChatCompletionsOptionalParameters? = nil) async throws -> ChatCompletionsDataModel? {
+        try await createChatCompletionsRequest(api, apiKey, model, messages, optionalParameters)
     }
 }

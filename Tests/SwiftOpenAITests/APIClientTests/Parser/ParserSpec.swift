@@ -32,7 +32,7 @@ class ParserSpec: XCTestCase {
         """.data(using: .utf8)!
             
         XCTAssertThrowsError(try Parser().parse(data, type: SwiftBetaModel.self, jsonDecoder: .init()), "JSON Key Not Found") { error in
-            XCTAssertTrue(error is DecodingError)
+            XCTAssertTrue(error is APIError)
         }
     }
     
@@ -46,7 +46,7 @@ class ParserSpec: XCTestCase {
         """.data(using: .utf8)!
                 
         XCTAssertThrowsError(try Parser().parse(data, type: SwiftBetaModel.self, jsonDecoder: .init()), "JSON Type Mismatch") { error in
-            XCTAssertTrue(error is DecodingError)
+            XCTAssertTrue(error is APIError)
         }
     }
 }

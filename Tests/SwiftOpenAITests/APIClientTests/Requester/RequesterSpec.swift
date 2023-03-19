@@ -2,15 +2,19 @@ import XCTest
 @testable import SwiftOpenAI
 
 class RequesterSpec: XCTestCase {
+    
+    struct MyTestError: Error, Decodable {
+        
+    }
 
-    func testExample() async throws {
+    func testSuccessfulRequestAndParsingOfSwiftBetaModel() async throws {
         let data =
         """
-                    {
-                        "user": "SwiftBeta",
-                        "number_of_videos": 140,
-                        "topics": ["SwiftUI", "Swift", "Xcode", "Testing", "Combine"],
-                    }
+        {
+            "user": "SwiftBeta",
+            "number_of_videos": 140,
+            "topics": ["SwiftUI", "Swift", "Xcode", "Testing", "Combine"],
+        }
         """.data(using: .utf8)!
         
         let router = Router()
@@ -33,7 +37,7 @@ class RequesterSpec: XCTestCase {
         
         let parser = Parser()
         
-        let model = try parser.parse(result, type: SwiftBetaModel.self)
+        let model = try parser.parse(result, type: SwiftBetaModel.self, errorType: MyTestError.self)
         
         XCTAssertNotNil(model)
         XCTAssertEqual(model?.user, "SwiftBeta")

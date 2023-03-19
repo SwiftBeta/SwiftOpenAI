@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Home on 18/3/23.
-//
-
 import Foundation
 
 public enum OpenAIModelType {

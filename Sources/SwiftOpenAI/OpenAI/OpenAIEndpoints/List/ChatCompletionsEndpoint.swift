@@ -4,15 +4,7 @@ struct ChatCompletionsEndpoint: Endpoint {
     private let model: OpenAIModelType
     private var messages: [[String: String]] = []
     
-    private let temperature: Int?
-    private let topP: Int?
-    private let n: Int?
-    private let steam: Bool?
-    private let stop: String?
-    private let maxTokens: Int?
-    private let presencePenalty: Int?
-    private let frequencyPenalty: Int?
-    private let user: String?
+    private let optionalParameters: ChatCompletionsOptionalParameters?
     
     var method: HTTPMethod {
         .POST
@@ -22,31 +14,21 @@ struct ChatCompletionsEndpoint: Endpoint {
     
     init(model: OpenAIModelType,
          messages: [MessageChatGPT],
-         temperature: Int? = nil,
-         topP: Int? = nil,
-         n: Int? = nil,
-         steam: Bool? = nil,
-         stop: String? = nil,
-         maxTokens: Int? = nil,
-         presencePenalty: Int? = nil,
-         frequencyPenalty: Int? = nil,
-         user: String? = nil) {
+         optionalParameters: ChatCompletionsOptionalParameters?) {
         self.model = model
         self.messages = Self.mapMessageModelToDictionary(messages: messages)
-        self.temperature = temperature
-        self.topP = topP
-        self.n = n
-        self.steam = steam
-        self.stop = stop
-        self.maxTokens = maxTokens
-        self.presencePenalty = presencePenalty
-        self.frequencyPenalty = frequencyPenalty
-        self.user = user
+        self.optionalParameters = optionalParameters
     }
     
     var parameters: [String : Any]? {
         ["model": self.model.name as Any,
-         "messages": self.messages as Any]
+         "messages": self.messages as Any,
+         "temperature": self.optionalParameters?.temperature as Any,
+         "top_p": self.optionalParameters?.topP as Any,
+         "n": self.optionalParameters?.n as Any,
+         "stream": self.optionalParameters?.stream as Any,
+         "stop": self.optionalParameters?.stop as Any,
+         "max_tokens": self.optionalParameters?.maxTokens as Any]
     }
     
     private static func mapMessageModelToDictionary(messages: [MessageChatGPT]) -> [[String: String]] {

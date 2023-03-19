@@ -28,11 +28,11 @@ public final class API {
         requestBuilder.addHeaders(urlRequest: &urlRequest, headers: headers)
     }
     
-    public func execute(with urlRequest: URLRequest) async -> Result<Data, Error> {
+    public func execute(with urlRequest: URLRequest) async -> Result<Data, APIError> {
         await requester.execute(with: urlRequest)
     }
     
-    public func parse<T: Decodable>(_ data: Result<Data, Error>, type: T.Type, jsonDecoder: JSONDecoder) throws -> T? {
-        try parser.parse(data, type: T.self, jsonDecoder: jsonDecoder)
+    public func parse<T: Decodable, E: Decodable & Error>(_ data: Result<Data, APIError>, type: T.Type, jsonDecoder: JSONDecoder, errorType: E.Type) throws -> T? {
+        try parser.parse(data, type: T.self, jsonDecoder: jsonDecoder, errorType: E.self)
     }
 }

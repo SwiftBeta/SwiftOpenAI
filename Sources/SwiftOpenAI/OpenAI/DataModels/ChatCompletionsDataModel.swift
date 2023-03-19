@@ -1,13 +1,6 @@
-//
-//  File.swift
-//  
-//
-//  Created by Home on 18/3/23.
-//
-
 import Foundation
 
-public struct ChatCompletionDataModel: Decodable {
+public struct ChatCompletionsDataModel: Decodable {
     public var id: String
     public var object: String
     public var created: Int
