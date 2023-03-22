@@ -4,7 +4,6 @@ public struct ChatCompletionsOptionalParameters {
     public let temperature: Int?
     public let topP: Int?
     public let n: Int?
-    public let stream: Bool?
     public let stop: String?
     public let maxTokens: Int?
     public let user: String?
@@ -12,7 +11,6 @@ public struct ChatCompletionsOptionalParameters {
     public init(temperature: Int = 1,
                   topP: Int = 1,
                   n: Int = 1,
-                  stream: Bool = false,
                   stop: String? = nil,
                   maxTokens: Int? = nil,
                   presencePenalty: Int = 0,
@@ -21,7 +19,6 @@ public struct ChatCompletionsOptionalParameters {
         self.temperature = temperature
         self.topP = topP
         self.n = n
-        self.stream = stream
         self.stop = stop
         self.maxTokens = maxTokens
         self.user = user

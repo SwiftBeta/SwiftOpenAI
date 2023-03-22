@@ -26,7 +26,6 @@ struct ChatCompletionsEndpoint: Endpoint {
          "temperature": self.optionalParameters?.temperature as Any,
          "top_p": self.optionalParameters?.topP as Any,
          "n": self.optionalParameters?.n as Any,
-         "stream": self.optionalParameters?.stream as Any,
          "stop": self.optionalParameters?.stop as Any,
          "max_tokens": self.optionalParameters?.maxTokens as Any]
     }

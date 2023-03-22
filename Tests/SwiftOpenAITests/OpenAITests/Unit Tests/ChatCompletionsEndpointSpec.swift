@@ -10,11 +10,11 @@ final class ChatCompletionsEndpointSpec: XCTestCase {
         let sut = OpenAIEndpoints.chat(model: model, messages: messages, optionalParameters: nil).endpoint
         
         let firstParameterValue = sut.parameters!["model"] as! String
-        let secondParameter: [[String: String]] = sut.parameters!["messages"] as! [[String : String]]
+        let secondParameter = sut.parameters!["messages"] as! [[String : String]]
         
         XCTAssertEqual(sut.path, "chat/completions")
         XCTAssertEqual(sut.method, .POST)
-        XCTAssertEqual(sut.parameters?.count, 8)
+        XCTAssertEqual(sut.parameters?.count, 7)
         XCTAssertEqual(firstParameterValue, model.name)
         XCTAssertEqual(secondParameter[0]["role"], messages[0].role)
         XCTAssertEqual(secondParameter[0]["content"], messages[0].text)
@@ -26,11 +26,11 @@ final class ChatCompletionsEndpointSpec: XCTestCase {
         let sut = OpenAIEndpoints.chat(model: model, messages: messages, optionalParameters: nil).endpoint
         
         let firstParameterValue = sut.parameters!["model"] as! String
-        let secondParameter: [[String: String]] = sut.parameters!["messages"] as! [[String : String]]
+        let secondParameter = sut.parameters!["messages"] as! [[String : String]]
         
         XCTAssertEqual(sut.path, "chat/completions")
         XCTAssertEqual(sut.method, .POST)
-        XCTAssertEqual(sut.parameters?.count, 8)
+        XCTAssertEqual(sut.parameters?.count, 7)
         XCTAssertEqual(firstParameterValue, model.name)
         XCTAssertEqual(secondParameter[0]["role"], messages[0].role)
         XCTAssertEqual(secondParameter[0]["content"], messages[0].text)

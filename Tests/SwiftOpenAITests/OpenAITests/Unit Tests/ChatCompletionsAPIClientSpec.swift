@@ -1,16 +1,18 @@
 import XCTest
 @testable import SwiftOpenAI
 
-final class ChatCompletionParserSpec: XCTestCase {
+final class ChatCompletionAPIClientSpec: XCTestCase {
     private var api = API()
     
     func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
-        let jsonData = loadJSON(name: "chat.completions")
+        let json = loadJSON(name: "chat.completions")
+        let urlRequest = createRequest(model: .gpt4(.base), json: json, statusCode: 200)
         
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        let dataModel = try! api.parse(.success(jsonData), type: ChatCompletionsDataModel.self, jsonDecoder: jsonDecoder, errorType: OpenAIAPIError.self)
+        let result = await api.execute(with: urlRequest)
+        let dataModel = try! api.parse(result, type: ChatCompletionsDataModel.self, jsonDecoder: jsonDecoder, errorType: OpenAIAPIError.self)
         
         XCTAssertNotNil(dataModel)
         XCTAssertEqual(dataModel?.id, "chatcmpl-123")
@@ -27,10 +29,13 @@ final class ChatCompletionParserSpec: XCTestCase {
     }
     
     func testAsyncAPIRequest_FailWithIncorrectJSONDecoderStrategy() async throws {
-        let jsonData = loadJSON(name: "chat.completions")
+        let json = loadJSON(name: "chat.completions")
+        let urlRequest = createRequest(model: .gpt4(.base), json: json, statusCode: 200)
+        
+        let result = await api.execute(with: urlRequest)
         
         do {
-            let _ = try api.parse(.success(jsonData), type: ChatCompletionsDataModel.self, jsonDecoder: JSONDecoder(), errorType: OpenAIAPIError.self)
+            let _ = try api.parse(result, type: ChatCompletionsDataModel.self, jsonDecoder: JSONDecoder(), errorType: OpenAIAPIError.self)
         } catch let error as APIError {
             switch error {
             case .decodable(let decodingError):
@@ -48,13 +53,16 @@ final class ChatCompletionParserSpec: XCTestCase {
     }
     
     func testAsyncAPIRequest_ParsesValidErrorJSONToErrorDataModel() async throws {
-        let jsonData = loadJSON(name: "chat.completions.error.invalid_api_key")
+        let json = loadJSON(name: "chat.completions.error.invalid_api_key")
+        let urlRequest = createRequest(model: .gpt4(.base), json: json, statusCode: 401)
         
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         
+        let result = await api.execute(with: urlRequest)
+        
         do {
-            let _ = try api.parse(.failure(.jsonResponseError(jsonData.toJSONString()!)), type: ChatCompletionsDataModel.self, jsonDecoder: jsonDecoder, errorType: OpenAIAPIError.self)
+            _ = try api.parse(result, type: ChatCompletionsDataModel.self, jsonDecoder: jsonDecoder, errorType: OpenAIAPIError.self)
         } catch let error as OpenAIAPIError {
             XCTAssertNotNil(error)
             XCTAssertEqual(error.code, "invalid_api_key")
@@ -62,5 +70,29 @@ final class ChatCompletionParserSpec: XCTestCase {
             XCTAssertEqual(error.type, "invalid_request_error")
             XCTAssertEqual(error.param, "")
         }
+    }
+    
+    private func createRequest(model: OpenAIModelType, json: Data, statusCode: Int) -> URLRequest {
+        let apiKey = "1234567890"
+        let messages: [MessageChatGPT] = [.init(text: "Hello, who are you?", role: "user")]
+        var endpoint = OpenAIEndpoints.chat(model: model, messages: messages, optionalParameters: nil).endpoint
+        
+        api = API(requester: RequesterMock())
+        api.routeEndpoint(&endpoint, environment: OpenAIEnvironmentV1())
+        
+        var urlRequest = api.buildURLRequest(endpoint: endpoint)
+        api.addHeaders(urlRequest: &urlRequest,
+                       headers: ["Content-Type" : "application/json",
+                                 "Authorization" : "Bearer \(apiKey)"])
+        
+        URLProtocolMock.completionHandler = { request in
+            let response = HTTPURLResponse(url: URL(string: endpoint.path)!,
+                                           statusCode: statusCode,
+                                           httpVersion: nil,
+                                           headerFields: [:])!
+            return (response, json)
+        }
+        
+        return urlRequest
     }
 }
