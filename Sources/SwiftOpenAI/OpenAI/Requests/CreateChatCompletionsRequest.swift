@@ -22,7 +22,7 @@ final public class CreateChatCompletionsRequest: CreateChatCompletionsRequestPro
                         model: OpenAIModelType,
                         messages: [MessageChatGPT],
                         optionalParameters: ChatCompletionsOptionalParameters?) async throws -> ChatCompletionsDataModel? {
-        var endpoint = OpenAIEndpoints.chat(model: model, messages: messages, optionalParameters: optionalParameters).endpoint
+        var endpoint = OpenAIEndpoints.chatCompletions(model: model, messages: messages, optionalParameters: optionalParameters).endpoint
         api.routeEndpoint(&endpoint, environment: OpenAIEnvironmentV1())
         
         var urlRequest = api.buildURLRequest(endpoint: endpoint)

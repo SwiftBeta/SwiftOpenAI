@@ -27,17 +27,13 @@ struct ChatCompletionsEndpoint: Endpoint {
          "top_p": self.optionalParameters?.topP as Any,
          "n": self.optionalParameters?.n as Any,
          "stop": self.optionalParameters?.stop as Any,
+         "stream": self.optionalParameters?.stream as Any,
          "max_tokens": self.optionalParameters?.maxTokens as Any]
     }
     
     private static func mapMessageModelToDictionary(messages: [MessageChatGPT]) -> [[String: String]] {
-        var myConversationDictionary: [String: String] = [:]
-        
-        for message in messages {
-            myConversationDictionary["role"] = message.role
-            myConversationDictionary["content"] = message.text
+        return messages.map {
+             ["role": $0.role, "content": $0.text]
         }
-        
-        return [myConversationDictionary]
     }
 }
