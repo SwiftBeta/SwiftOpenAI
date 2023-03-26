@@ -2,11 +2,11 @@ import Foundation.NSURLSession
 @testable import SwiftOpenAI
 
 struct RequesterMock: RequesterProtocol {
-    var urlSession: URLSession {
+    var urlSession: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
         configuration.protocolClasses = [URLProtocolMock.self]
         return URLSession(configuration: configuration)
-    }
+    }()
     
     func execute(with urlRequest: URLRequest) async -> Result<Data, APIError> {
         do {
