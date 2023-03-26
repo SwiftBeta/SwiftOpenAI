@@ -1,0 +1,8 @@
+version: 1
+builder:
+  configs:
+  - platform: ios
+    scheme: SwiftOpenAI
+  - platform: macos-xcodebuild
+    scheme: SwiftOpenAI
+  - documentation_targets: [SwiftOpenAI]
