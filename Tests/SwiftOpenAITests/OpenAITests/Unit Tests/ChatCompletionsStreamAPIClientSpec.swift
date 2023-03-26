@@ -38,14 +38,14 @@ final class ChatCompletionStreamAPIClientSpec: XCTestCase {
             XCTAssertEqual(firstStreamMessage.id, "chatcmpl-6y3hLScC8nkFaGwfZWXqBXPPFdlei")
             XCTAssertEqual(firstStreamMessage.object, "chat.completion.chunk")
             XCTAssertEqual(firstStreamMessage.model, "gpt-3.5-turbo-0301")
-            XCTAssertEqual(firstStreamMessage.choices[0].delta.content, " conectar")
+            XCTAssertEqual(firstStreamMessage.choices[0].delta?.content, " conectar")
             XCTAssertEqual(firstStreamMessage.choices[0].index, 0)
             XCTAssertNil(firstStreamMessage.choices[0].finishReason)
             
             XCTAssertEqual(secondStreamMessage.id, "chatcmpl-6y3hLScC8nkFaGwfZWXqBXPPFdlei")
             XCTAssertEqual(secondStreamMessage.object, "chat.completion.chunk")
             XCTAssertEqual(secondStreamMessage.model, "gpt-3.5-turbo-0301")
-            XCTAssertEqual(secondStreamMessage.choices[0].delta.content, " emoc")
+            XCTAssertEqual(secondStreamMessage.choices[0].delta?.content, " emoc")
             XCTAssertEqual(secondStreamMessage.choices[0].index, 0)
             XCTAssertNil(secondStreamMessage.choices[0].finishReason)
         } catch {
