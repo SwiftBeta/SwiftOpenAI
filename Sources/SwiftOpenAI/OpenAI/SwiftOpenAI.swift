@@ -32,6 +32,6 @@ public class SwiftOpenAI: OpenAIProtocol {
     public func createChatCompletionsStream(model: OpenAIModelType,
                                             messages: [MessageChatGPT],
                                             optionalParameters: ChatCompletionsOptionalParameters? = nil) async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error> {
-        return try createChatCompletionsStreamRequest(api, apiKey, model, messages, optionalParameters)
+        try createChatCompletionsStreamRequest(api, apiKey, model, messages, optionalParameters)
     }
 }
