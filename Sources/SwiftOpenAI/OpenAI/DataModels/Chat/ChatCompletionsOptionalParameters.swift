@@ -10,14 +10,14 @@ public struct ChatCompletionsOptionalParameters {
     public let user: String?
     
     public init(temperature: Int = 1,
-                  topP: Int = 1,
-                  n: Int = 1,
-                  stop: String? = nil,
-                  stream: Bool = false,
-                  maxTokens: Int? = nil,
-                  presencePenalty: Int = 0,
-                  frequencyPenalty: Int = 0,
-                  user: String? = nil) {
+                topP: Int = 1,
+                n: Int = 1,
+                stop: String? = nil,
+                stream: Bool = false,
+                maxTokens: Int? = nil,
+                presencePenalty: Int = 0,
+                frequencyPenalty: Int = 0,
+                user: String? = nil) {
         self.temperature = temperature
         self.topP = topP
         self.n = n

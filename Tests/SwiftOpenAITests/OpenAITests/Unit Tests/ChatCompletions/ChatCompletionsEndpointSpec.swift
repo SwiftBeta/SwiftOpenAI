@@ -1,9 +1,7 @@
 import XCTest
 @testable import SwiftOpenAI
 
-final class ChatCompletionsEndpointSpec: XCTestCase {
-    private var api = API()
-    
+final class ChatCompletionsEndpointSpec: XCTestCase {    
     func testChatEndpointCreation_WithGPT4ModelAndMessages_CreatesCorrectEndpointParameters() throws {
         let model: OpenAIModelType = .gpt4(.base)
         let messages: [MessageChatGPT] = [.init(text: "Hello, who are you?", role: "user")]

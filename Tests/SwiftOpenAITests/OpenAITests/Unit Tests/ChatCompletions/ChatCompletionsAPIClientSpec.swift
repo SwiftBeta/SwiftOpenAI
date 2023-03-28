@@ -10,7 +10,7 @@ final class ChatCompletionAPIClientSpec: XCTestCase {
     
     func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
         let json = loadJSON(name: "chat.completions")
-
+        
         let api = API(requester: RequesterMock())
         let endpoint = OpenAIEndpoints.chatCompletions(model: model, messages: messages, optionalParameters: nil).endpoint
         

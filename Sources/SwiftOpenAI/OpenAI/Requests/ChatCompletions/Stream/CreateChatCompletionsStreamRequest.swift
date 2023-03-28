@@ -67,6 +67,10 @@ extension CreateChatCompletionsStreamRequest: URLSessionDataDelegate {
     }
     
     public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-        continuation?.finish()
+        guard let error = error else {
+            continuation?.finish()
+            return
+        }
+        continuation?.finish(throwing: error)
     }
 }
