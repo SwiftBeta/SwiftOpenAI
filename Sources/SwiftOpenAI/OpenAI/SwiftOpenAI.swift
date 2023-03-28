@@ -4,6 +4,12 @@ protocol OpenAIProtocol {
     func createChatCompletions(model: OpenAIModelType,
                               messages: [MessageChatGPT],
                               optionalParameters: ChatCompletionsOptionalParameters?) async throws -> ChatCompletionsDataModel?
+    
+    func createChatCompletionsStream(model: OpenAIModelType,
+                                            messages: [MessageChatGPT],
+                                            optionalParameters: ChatCompletionsOptionalParameters?) async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error>
+    
+    func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel?
 }
 
 public class SwiftOpenAI: OpenAIProtocol {
@@ -12,15 +18,18 @@ public class SwiftOpenAI: OpenAIProtocol {
     
     private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
     private let createChatCompletionsStreamRequest: CreateChatCompletionsStreamRequest.Init
+    private let createImagesRequest: CreateImagesRequest.Init
     
     public init(api: API = API(),
                 apiKey: String,
                 createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute,
-                createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute) {
+                createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
+                createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute) {
         self.api = api
         self.apiKey = apiKey
         self.createChatCompletionsRequest = createChatCompletionsRequest
         self.createChatCompletionsStreamRequest = createChatCompletionsStreamRequest
+        self.createImagesRequest = createImagesRequest
     }
     
     public func createChatCompletions(model: OpenAIModelType,
@@ -33,5 +42,9 @@ public class SwiftOpenAI: OpenAIProtocol {
                                             messages: [MessageChatGPT],
                                             optionalParameters: ChatCompletionsOptionalParameters? = nil) async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error> {
         try createChatCompletionsStreamRequest(api, apiKey, model, messages, optionalParameters)
+    }
+    
+    public func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel? {
+        try await createImagesRequest(api, apiKey, prompt, numberOfImages, size)
     }
 }
