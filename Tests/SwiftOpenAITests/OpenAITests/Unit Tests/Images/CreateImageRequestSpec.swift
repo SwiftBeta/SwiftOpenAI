@@ -3,7 +3,7 @@ import XCTest
 
 final class CreateImageRequestSpec: XCTestCase {
     private let api = API()
-
+    
     func testRequest_CreatedWithCorrectHeaders() throws {
         let apiKey = "1234567890"
         
