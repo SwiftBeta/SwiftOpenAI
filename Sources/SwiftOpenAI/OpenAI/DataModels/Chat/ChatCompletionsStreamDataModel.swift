@@ -6,6 +6,14 @@ public struct ChatCompletionsStreamDataModel: Decodable {
     public var created: Int
     public var model: String
     public var choices: [ChoicesStreamDataModel]
+    
+    static var finished: ChatCompletionsStreamDataModel = {
+        .init(id: UUID().uuidString,
+              object: "",
+              created: 1,
+              model: "",
+              choices: [.init(index: 0, finishReason: "stop")])
+    }()
 }
 
 public struct ChoicesStreamDataModel: Decodable {

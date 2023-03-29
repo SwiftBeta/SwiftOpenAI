@@ -33,7 +33,7 @@ struct ChatCompletionsEndpoint: Endpoint {
     
     private static func mapMessageModelToDictionary(messages: [MessageChatGPT]) -> [[String: String]] {
         return messages.map {
-             ["role": $0.role, "content": $0.text]
+            ["role": $0.role.rawValue, "content": $0.text]
         }
     }
 }

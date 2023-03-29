@@ -5,6 +5,10 @@ public protocol ChatCompletionsStreamMappeable {
 }
 
 public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
+    private enum Constant: String {
+        case streamFinished = "[DONE]"
+    }
+    
     public init() { }
     
     public func parse(data: Data) throws -> [ChatCompletionsStreamDataModel] {
@@ -16,7 +20,11 @@ public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
             guard let jsonData = $0.data(using: .utf8) else {
                 return nil
             }
-            return try decodeChatCompletionsStreamDataModel(from: jsonData)
+            if $0 == Constant.streamFinished.rawValue {
+                return .finished
+            } else {
+                return try decodeChatCompletionsStreamDataModel(from: jsonData)
+            }
         }.compactMap { $0 }
     }
     

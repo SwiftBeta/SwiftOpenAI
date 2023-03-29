@@ -7,7 +7,7 @@ final class ChatCompletionStreamAPIClientSpec: XCTestCase {
     private let apiKey = "1234567890"
     private let optionalParameters: ChatCompletionsOptionalParameters = .init(stream: true)
     private let messages: [MessageChatGPT] = [.init(text: "Hello, who are you?",
-                                                    role: "user")]
+                                                    role: .user)]
     
     func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
         let configuration = URLSessionConfiguration.ephemeral
