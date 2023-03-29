@@ -6,7 +6,7 @@ final class ChatCompletionAPIClientSpec: XCTestCase {
     private let model: OpenAIModelType = .gpt4(.base)
     private let apiKey = "1234567890"
     private let messages: [MessageChatGPT] = [.init(text: "Hello, who are you?",
-                                                    role: "user")]
+                                                    role: .user)]
     
     func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
         let json = loadJSON(name: "chat.completions")
