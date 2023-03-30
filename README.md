@@ -48,7 +48,7 @@ The `createChatCompletionsStream` method allows you to interact with the OpenAI 
 ```swift
 do {
     for try await newMessage in try await openAI.createChatCompletionsStream(model: .gpt3_5(.turbo),
-                                                                             messages: [.init(text: "Generate the Hello World in Swift for me", role: "user")],
+                                                                             messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)],
                                                                              optionalParameters: .init(stream: true)) {
                 print("New Message Received: \(newMessage) ")
     }
@@ -78,7 +78,7 @@ struct ContentView: View {
             Task {
                 do {
                     for try await newMessage in try await openAI.createChatCompletionsStream(model: .gpt3_5(.turbo),
-                                                                                             messages: [.init(text: "Generate the Hello World in Swift for me", role: "user")],
+                                                                                             messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)],
                                                                                              optionalParameters: .init(stream: true)) {
                            print("New Message Received: \(newMessage) ")
                     }
@@ -97,7 +97,7 @@ The `createChatCompletions` method allows you to interact with the OpenAI API by
 ```swift
 do {
     let result = try await openAI.createChatCompletions(model: .gpt3_5(.turbo),
-                                                        messages: [.init(text: "Generate the Hello World in Swift for me", role: "user")])
+                                                        messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)])
     print(result)
 } catch {
     print(error)
@@ -125,7 +125,7 @@ struct ContentView: View {
             Task {
                 do {
                     let result = try await openAI.createChatCompletions(model: .gpt3_5(.turbo),
-                                                                        messages: [.init(text: "Generate the Hello World in Swift for me", role: "user")])
+                                                                        messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)])
                     print(result)
                 } catch {
                     print(error)
