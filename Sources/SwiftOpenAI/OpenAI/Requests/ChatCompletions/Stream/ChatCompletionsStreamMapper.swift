@@ -6,17 +6,20 @@ public protocol ChatCompletionsStreamMappeable {
 
 public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
     private enum Constant: String {
+        case streamData = "data: "
+        case streamError = "\"error\": {\n"
         case streamFinished = "[DONE]"
     }
     
     public init() { }
     
-    public func parse(data: Data) throws -> [ChatCompletionsStreamDataModel] {
+    public func parse(data: Data) throws -> [ChatCompletionsStreamDataModel] {        
         guard let dataString = String(data: data, encoding: .utf8) else {
             return []
         }
         
         return try extractDataLine(from: dataString).map {
+            print($0)
             guard let jsonData = $0.data(using: .utf8) else {
                 return nil
             }
@@ -29,14 +32,23 @@ public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
     }
     
     private func extractDataLine(from dataString: String,
-                                 dataPrefix: String = "data: ") throws -> [String] {
-        let lines = dataString.split(separator: "\n\n").map { String ($0) }
-        return lines.map {
-            $0.dropFirst(dataPrefix.count).trimmingCharacters(in: .whitespaces)
+                                 dataPrefix: String = Constant.streamData.rawValue) throws -> [String] {
+        if dataString.contains(Constant.streamError.rawValue) {
+            return [dataString]
+        } else {
+            let lines = dataString.split(separator: "\n\n").map { String ($0) }
+            return lines.map {
+                $0.dropFirst(dataPrefix.count).trimmingCharacters(in: .whitespaces)
+            }
         }
     }
 
     private func decodeChatCompletionsStreamDataModel(from data: Data) throws -> ChatCompletionsStreamDataModel? {
-        return try JSONDecoder().decode(ChatCompletionsStreamDataModel.self, from: data)
+        do {
+            return try JSONDecoder().decode(ChatCompletionsStreamDataModel.self, from: data)
+        } catch {
+            let error = try JSONDecoder().decode(OpenAIAPIError.self, from: data)
+            throw error
+        }
     }
 }

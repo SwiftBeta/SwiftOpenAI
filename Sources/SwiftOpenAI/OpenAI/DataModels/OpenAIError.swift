@@ -1,7 +1,7 @@
 import Foundation
 
 struct OpenAIAPIError: Decodable, Error {
-    let code: String
+    let code: String?
     let message: String
     let param: String?
     let type: String
@@ -18,7 +18,7 @@ struct OpenAIAPIError: Decodable, Error {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let errorContainer = try container.nestedContainer(keyedBy: ErrorKeys.self, forKey: .error)
 
-        code = try errorContainer.decode(String.self, forKey: .code)
+        code = try errorContainer.decodeIfPresent(String.self, forKey: .code)
         message = try errorContainer.decode(String.self, forKey: .message)
         param = try errorContainer.decodeIfPresent(String.self, forKey: .param)
         type = try errorContainer.decode(String.self, forKey: .type)
