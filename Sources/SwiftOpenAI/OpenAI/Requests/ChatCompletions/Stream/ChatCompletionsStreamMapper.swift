@@ -19,7 +19,6 @@ public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
         }
         
         return try extractDataLine(from: dataString).map {
-            print($0)
             guard let jsonData = $0.data(using: .utf8) else {
                 return nil
             }

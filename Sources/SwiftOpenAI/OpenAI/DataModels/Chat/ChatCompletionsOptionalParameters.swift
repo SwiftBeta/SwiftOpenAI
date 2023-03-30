@@ -1,7 +1,7 @@
 import Foundation
 
 public struct ChatCompletionsOptionalParameters {
-    public let temperature: Int?
+    public let temperature: Double?
     public let topP: Int?
     public let n: Int?
     public let stop: String?
@@ -9,7 +9,7 @@ public struct ChatCompletionsOptionalParameters {
     public let maxTokens: Int?
     public let user: String?
     
-    public init(temperature: Int = 1,
+    public init(temperature: Double = 1.0,
                 topP: Int = 1,
                 n: Int = 1,
                 stop: String? = nil,

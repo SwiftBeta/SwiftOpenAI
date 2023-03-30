@@ -31,13 +31,10 @@ final public class Requester: RequesterProtocol {
             
             return .success(data)
         } catch let error as URLError {
-            print(error.localizedDescription)
             return .failure(.urlSession(error))
         } catch let error as APIError {
-            print(error.localizedDescription)
             return .failure(error)
         } catch {
-            print(error.localizedDescription)
             return .failure(.unknown)
         }
     }

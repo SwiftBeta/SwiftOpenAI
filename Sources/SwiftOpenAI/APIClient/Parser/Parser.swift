@@ -26,8 +26,6 @@ final public class Parser: ParserProtocol {
                                     type: T.Type,
                                     jsonDecoder: JSONDecoder = .init()) throws -> T? {
         do {
-            let json = try JSONSerialization.jsonObject(with: data)
-            print(json)
             return try jsonDecoder.decode(T.self, from: data)
         } catch let error as DecodingError {
             printDecodable(error: error)
