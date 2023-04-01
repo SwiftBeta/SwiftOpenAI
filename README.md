@@ -30,20 +30,15 @@ Open Xcode and open the `Swift Package Manager` section, then paste the Github U
 
 Using SwiftOpenAI` is simple and straightforward. Follow these steps to start interacting with OpenAI's API in your Swift project:
 
-## 1️⃣ Import SwiftOpenAI
-First, import the SwiftOpenAI module in the file where you want to use it:
-```swift
-import SwiftOpenAI
-```
+1. `Import SwiftOpenAI`
+2. `var openAI = SwiftOpenAI(apiKey: "YOUR-API-KEY")`
 
-## 2️⃣ Create an instance of SwiftOpenAI
-Next, create an instance of the SwiftOpenAI class, passing your OpenAI API key as a parameter. Make sure you have already obtained an API key from your [OpenAI account](https://platform.openai.com/account/api-keys).
-```swift
-var openAI = SwiftOpenAI(apiKey: "YOUR-API-KEY")
-```
+## 💬 [ChatCompletions](https://platform.openai.com/docs/api-reference/chat/create)
+You can receive the information by chunks of data
 
-## 3️⃣ Use the createChatCompletionsStream method (Receive message in real time)
-The `createChatCompletionsStream` method allows you to interact with the OpenAI API by generating chat-based completions. Provide the necessary parameters to customize the completions, such as model, messages, and other optional settings.
+![1](https://user-images.githubusercontent.com/74316958/229309185-205c9b43-03b2-4a23-95e0-3fbaf9949d0b.gif)
+
+👇 ***Example Code*** 👇
 
 ```swift
 do {
@@ -56,6 +51,38 @@ do {
     print(error)
 }
 ```
+
+Or you can receive the information all at once
+
+![2](https://user-images.githubusercontent.com/74316958/229309147-23169fa6-b495-44fb-913e-de2c57b9a716.gif)
+
+👇 ***Example Code*** 👇
+
+```swift
+do {
+    let result = try await openAI.createChatCompletions(model: .gpt3_5(.turbo),
+                                                        messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)])
+    print(result)
+} catch {
+    print(error)
+}
+```
+
+## 🎨 [Create Image](https://platform.openai.com/docs/api-reference/images/create)
+
+```swift
+do {
+    let images = try await openAI.createImages(prompt: prompt,
+                                               numberOfImages: 4,
+                                               size: .s1024)
+} catch {
+    isLoading = false
+    print(error.localizedDescription)
+}
+```
+---
+
+## Code Examples using the API
 
 Here you have a full example using SwiftUI:
 
@@ -91,7 +118,7 @@ struct ContentView: View {
 }
 ```
 
-## 4️⃣ Use the createChatCompletions method
+## Use the createChatCompletions method
 The `createChatCompletions` method allows you to interact with the OpenAI API by generating chat-based completions. Provide the necessary parameters to customize the completions, such as model, messages, and other optional settings.
 
 ```swift
