@@ -1,6 +1,8 @@
 import Foundation
 
 enum OpenAIEndpoints {
+    case listModels
+        
     case completions(model: OpenAIModelType,
                      optionalParameters: CompletionsOptionalParameters?)
     
@@ -18,6 +20,8 @@ enum OpenAIEndpoints {
     
     public var endpoint: Endpoint {
         switch self {
+        case .listModels:
+            return ListModelsEndpoint()
         case .completions(model: let model, optionalParameters: let optionalParameters):
             return CompletionsEndpoint(model: model,
                                        optionalParameters: optionalParameters)
