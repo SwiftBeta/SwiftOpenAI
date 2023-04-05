@@ -3,6 +3,7 @@ import Foundation
 public enum OpenAIModelType {
     case gpt4(GPT4)
     case gpt3_5(GPT3_5)
+    case edit(EditModel)
     
     var name: String {
         switch self {
@@ -10,6 +11,8 @@ public enum OpenAIModelType {
             return gpt4Model.rawValue
         case .gpt3_5(let gpt3_5Model):
             return gpt3_5Model.rawValue
+        case .edit(let editModel):
+            return editModel.rawValue
         }
     }
 }
@@ -27,4 +30,9 @@ public enum GPT3_5: String {
     case text_davinci_003 = "text-davinci-003"
     case text_davinci_002 = "text-davinci-002"
     case code_davinci_002 = "code-davinci-002"
+}
+
+public enum EditModel: String {
+    case text_davinci_edit_001 = "text-davinci-edit-001"
+    case code_davinci_edit_001 = "code-davinci-edit-001"
 }
