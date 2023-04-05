@@ -40,6 +40,18 @@ Using SwiftOpenAI` is simple and straightforward. Follow these steps to start in
 1. `Import SwiftOpenAI`
 2. `var openAI = SwiftOpenAI(apiKey: "YOUR-API-KEY")`
 
+## [Models](https://platform.openai.com/docs/api-reference/models)
+List and describe the various models available in the API. You can refer to the Models documentation to understand what models are available and the differences between them.
+
+```swift
+do {
+    let result = try await openAI.listModels()
+    print(result)
+} catch {
+    print(error)
+}
+```
+
 ## [Completions](https://platform.openai.com/docs/api-reference/completions)
 Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
 
@@ -56,8 +68,6 @@ do {
 ## [ChatCompletions with Stream](https://platform.openai.com/docs/api-reference/chat/create)
 Given a chat conversation, the model will return a chat completion response.
 
-<!--![1](https://user-images.githubusercontent.com/74316958/229309185-205c9b43-03b2-4a23-95e0-3fbaf9949d0b.gif)-->
-
 ```swift
 do {
     for try await newMessage in try await openAI.createChatCompletionsStream(model: .gpt3_5(.turbo),
@@ -72,8 +82,6 @@ do {
 
 ## [ChatCompletions without Stream](https://platform.openai.com/docs/api-reference/chat/create)
 Given a chat conversation, the model will return a chat completion response.
-
-<!--![2](https://user-images.githubusercontent.com/74316958/229309147-23169fa6-b495-44fb-913e-de2c57b9a716.gif)-->
 
 ```swift
 do {
@@ -120,6 +128,11 @@ do {
 
 Here you have a full example using SwiftUI:
 
+The `createChatCompletions` method allows you to interact with the OpenAI API by generating chat-based completions. Provide the necessary parameters to customize the completions, such as model, messages, and other optional settings.
+
+![1](https://user-images.githubusercontent.com/74316958/229309185-205c9b43-03b2-4a23-95e0-3fbaf9949d0b.gif)
+
+
 ```swift
 import SwiftUI
 import SwiftOpenAI
@@ -154,6 +167,8 @@ struct ContentView: View {
 
 ## Another example
 The `createChatCompletions` method allows you to interact with the OpenAI API by generating chat-based completions. Provide the necessary parameters to customize the completions, such as model, messages, and other optional settings.
+
+![2](https://user-images.githubusercontent.com/74316958/229309147-23169fa6-b495-44fb-913e-de2c57b9a716.gif)
 
 ```swift
 import SwiftUI
