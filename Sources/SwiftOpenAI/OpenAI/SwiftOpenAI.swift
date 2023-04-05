@@ -1,6 +1,8 @@
 import Foundation
 
 protocol OpenAIProtocol {
+    func listModels() async throws -> ModelListDataModel?
+    
     func completions(model: OpenAIModelType,
                      optionalParameters: CompletionsOptionalParameters?) async throws -> CompletionsDataModel?
     
@@ -23,6 +25,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let api: API
     private let apiKey: String
     
+    private let listModelsRequest: ListModelsRequest.Init
     private let completionsRequest: CompletionsRequest.Init
     private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
     private let createChatCompletionsStreamRequest: CreateChatCompletionsStreamRequest.Init
@@ -31,6 +34,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     
     public init(api: API = API(),
                 apiKey: String,
+                listModelsRequest: @escaping ListModelsRequest.Init = ListModelsRequest().execute,
                 completionsRequest: @escaping CompletionsRequest.Init = CompletionsRequest().execute,
                 createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute,
                 createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
@@ -38,11 +42,16 @@ public class SwiftOpenAI: OpenAIProtocol {
                 createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute) {
         self.api = api
         self.apiKey = apiKey
+        self.listModelsRequest = listModelsRequest
         self.completionsRequest = completionsRequest
         self.createChatCompletionsRequest = createChatCompletionsRequest
         self.createChatCompletionsStreamRequest = createChatCompletionsStreamRequest
         self.editsRequest = editsRequest
         self.createImagesRequest = createImagesRequest
+    }
+    
+    public func listModels() async throws -> ModelListDataModel? {
+        try await listModelsRequest(api, apiKey)
     }
     
     public func completions(model: OpenAIModelType, optionalParameters: CompletionsOptionalParameters?) async throws -> CompletionsDataModel? {
