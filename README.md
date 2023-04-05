@@ -40,30 +40,40 @@ Using SwiftOpenAI` is simple and straightforward. Follow these steps to start in
 1. `Import SwiftOpenAI`
 2. `var openAI = SwiftOpenAI(apiKey: "YOUR-API-KEY")`
 
-## 💬 [ChatCompletions](https://platform.openai.com/docs/api-reference/chat/create)
-You can receive the information by chunks of data
+## [Completions](https://platform.openai.com/docs/api-reference/completions)
+Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
 
-![1](https://user-images.githubusercontent.com/74316958/229309185-205c9b43-03b2-4a23-95e0-3fbaf9949d0b.gif)
+```swift
+do {
+    let completionsOptionalParameters: CompletionsOptionalParameters = .init(prompt: "Say this is a test")
+    let result = try await openAI.completions(model: .gpt3_5(.text_davinci_003),
+                                              optionalParameters: completionsOptionalParameters)
+} catch {
+    print("Error: \(error)")
+}
+```
 
-👇 ***Example Code*** 👇
+## [ChatCompletions with Stream](https://platform.openai.com/docs/api-reference/chat/create)
+Given a chat conversation, the model will return a chat completion response.
+
+<!--![1](https://user-images.githubusercontent.com/74316958/229309185-205c9b43-03b2-4a23-95e0-3fbaf9949d0b.gif)-->
 
 ```swift
 do {
     for try await newMessage in try await openAI.createChatCompletionsStream(model: .gpt3_5(.turbo),
                                                                              messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)],
                                                                              optionalParameters: .init(stream: true)) {
-                print("New Message Received: \(newMessage) ")
+        print("New Message Received: \(newMessage) ")
     }
 } catch {
-    print(error)
+    print("Error: \(error)")
 }
 ```
 
-Or you can receive the information all at once
+## [ChatCompletions without Stream](https://platform.openai.com/docs/api-reference/chat/create)
+Given a chat conversation, the model will return a chat completion response.
 
-![2](https://user-images.githubusercontent.com/74316958/229309147-23169fa6-b495-44fb-913e-de2c57b9a716.gif)
-
-👇 ***Example Code*** 👇
+<!--![2](https://user-images.githubusercontent.com/74316958/229309147-23169fa6-b495-44fb-913e-de2c57b9a716.gif)-->
 
 ```swift
 do {
@@ -71,11 +81,12 @@ do {
                                                         messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)])
     print(result)
 } catch {
-    print(error)
+    print("Error: \(error)")
 }
 ```
 
-## 🎨 [Create Image](https://platform.openai.com/docs/api-reference/images/create)
+## [Create Image with DALL·E 2](https://platform.openai.com/docs/api-reference/images/create)
+Given a prompt and/or an input image, the model will generate a new image.
 
 ```swift
 do {
