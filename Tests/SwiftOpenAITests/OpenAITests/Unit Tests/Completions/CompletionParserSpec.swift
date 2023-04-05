@@ -4,7 +4,7 @@ import XCTest
 final class CompletionParserSpec: XCTestCase {
     private var api = API()
     
-    func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
+    func testAsyncAPIRequest_ParsesValidJSONToCompletionsDataModel() async throws {
         let jsonData = loadJSON(name: "completions")
         
         let jsonDecoder = JSONDecoder()

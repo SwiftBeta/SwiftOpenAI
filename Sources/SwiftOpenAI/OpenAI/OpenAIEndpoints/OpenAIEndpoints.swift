@@ -7,6 +7,11 @@ enum OpenAIEndpoints {
     case chatCompletions(model: OpenAIModelType,
                          messages: [MessageChatGPT],
                          optionalParameters: ChatCompletionsOptionalParameters?)
+    
+    case edits(model: OpenAIModelType,
+               input: String,
+               instruction: String)
+    
     case createImage(prompt: String,
                      numberOfImages: Int,
                      size: ImageSize)
@@ -20,6 +25,10 @@ enum OpenAIEndpoints {
             return ChatCompletionsEndpoint(model: model,
                                            messages: messages,
                                            optionalParameters: optionalParameters)
+        case .edits(model: let model, input: let input, instruction: let instruction):
+            return EditsEndpoint(model: model,
+                                 input: input,
+                                 instruction: instruction)
         case .createImage(prompt: let prompt, numberOfImages: let numberOfImages, size: let size):
             return CreateImageEndpoint(prompt: prompt,
                                        numberOfImages: numberOfImages,
