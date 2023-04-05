@@ -1,6 +1,9 @@
 import Foundation
 
 protocol OpenAIProtocol {
+    func completions(model: OpenAIModelType,
+                     optionalParameters: CompletionsOptionalParameters?) async throws -> CompletionsDataModel?
+    
     func createChatCompletions(model: OpenAIModelType,
                               messages: [MessageChatGPT],
                               optionalParameters: ChatCompletionsOptionalParameters?) async throws -> ChatCompletionsDataModel?
@@ -16,20 +19,27 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let api: API
     private let apiKey: String
     
+    private let completionsRequest: CompletionsRequest.Init
     private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
     private let createChatCompletionsStreamRequest: CreateChatCompletionsStreamRequest.Init
     private let createImagesRequest: CreateImagesRequest.Init
     
     public init(api: API = API(),
                 apiKey: String,
+                completionsRequest: @escaping CompletionsRequest.Init = CompletionsRequest().execute,
                 createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute,
                 createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
                 createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute) {
         self.api = api
         self.apiKey = apiKey
+        self.completionsRequest = completionsRequest
         self.createChatCompletionsRequest = createChatCompletionsRequest
         self.createChatCompletionsStreamRequest = createChatCompletionsStreamRequest
         self.createImagesRequest = createImagesRequest
+    }
+    
+    public func completions(model: OpenAIModelType, optionalParameters: CompletionsOptionalParameters?) async throws -> CompletionsDataModel? {
+        try await completionsRequest(api, apiKey, model, optionalParameters)
     }
     
     public func createChatCompletions(model: OpenAIModelType,
