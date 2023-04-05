@@ -85,6 +85,22 @@ do {
 }
 ```
 
+## [Edits](https://platform.openai.com/docs/api-reference/edits)
+Given a prompt and an instruction, the model will return an edited version of the prompt.
+
+```swift
+do {
+    let input = "What day of the wek is it?"
+    let instructions = "Fix the spelling mistakes"
+    let result = try await openAI.edits(model: .edit(.code_davinci_edit_001),
+                                        input: input,
+                                        instruction: instructions)
+    print(result?.choices[0].text ?? "")
+} catch {
+    print(error)
+}
+```
+
 ## [Create Image with DALL·E 2](https://platform.openai.com/docs/api-reference/images/create)
 Given a prompt and/or an input image, the model will generate a new image.
 
