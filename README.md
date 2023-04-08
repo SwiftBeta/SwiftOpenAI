@@ -45,10 +45,10 @@ List and describe the various models available in the API. You can refer to the 
 
 ```swift
 do {
-    let result = try await openAI.listModels()
-    print(result)
+    let modelList = try await openAI.listModels()
+    print(modelList)
 } catch {
-    print(error)
+    print("Error: \(error)")
 }
 ```
 
@@ -56,10 +56,12 @@ do {
 Given a prompt, the model will return one or more predicted completions, and can also return the probabilities of alternative tokens at each position.
 
 ```swift
+let prompt = "Once upon a time, in a land far, far away,"
+let optionalParameters = CompletionsOptionalParameters(prompt: prompt, maxTokens: 50, temperature: 0.7, n: 1)
+
 do {
-    let completionsOptionalParameters: CompletionsOptionalParameters = .init(prompt: "Say this is a test")
-    let result = try await openAI.completions(model: .gpt3_5(.text_davinci_003),
-                                              optionalParameters: completionsOptionalParameters)
+    let completions = try await openAI.completions(model: .gpt3_5(.text_davinci_003), optionalParameters: optionalParameters)
+    print(completions)
 } catch {
     print("Error: \(error)")
 }
@@ -69,11 +71,17 @@ do {
 Given a chat conversation, the model will return a chat completion response.
 
 ```swift
+let messages: [MessageChatGPT] = [
+  MessageChatGPT(text: "You are a helpful assistant.", role: .system),
+  MessageChatGPT(text: "Who won the world series in 2020?", role: .user)
+]
+let optionalParameters = ChatCompletionsOptionalParameters(temperature: 0.7, stream: true, maxTokens: 50)
+
 do {
-    for try await newMessage in try await openAI.createChatCompletionsStream(model: .gpt3_5(.turbo),
-                                                                             messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)],
-                                                                             optionalParameters: .init(stream: true)) {
-        print("New Message Received: \(newMessage) ")
+    let stream = try await openAI.createChatCompletionsStream(model: .gpt4(.base), messages: messages, optionalParameters: optionalParameters)
+    
+    for try await response in stream {
+        print(response)
     }
 } catch {
     print("Error: \(error)")
@@ -84,10 +92,15 @@ do {
 Given a chat conversation, the model will return a chat completion response.
 
 ```swift
+let messages: [MessageChatGPT] = [
+    MessageChatGPT(text: "You are a helpful assistant.", role: .system),
+    MessageChatGPT(text: "Who won the world series in 2020?", role: .user)
+]
+let optionalParameters = ChatCompletionsOptionalParameters(temperature: 0.7, maxTokens: 50)
+
 do {
-    let result = try await openAI.createChatCompletions(model: .gpt3_5(.turbo),
-                                                        messages: [.init(text: "Generate the Hello World in Swift for me", role: .user)])
-    print(result)
+    let chatCompletions = try await openAI.createChatCompletions(model: .gpt4(.base), messages: messages, optionalParameters: optionalParameters)
+    print(chatCompletions)
 } catch {
     print("Error: \(error)")
 }
@@ -97,15 +110,14 @@ do {
 Given a prompt and an instruction, the model will return an edited version of the prompt.
 
 ```swift
+let inputText = "The car have four weels."
+let instruction = "Please correct any grammatical errors in the text."
+
 do {
-    let input = "What day of the wek is it?"
-    let instructions = "Fix the spelling mistakes"
-    let result = try await openAI.edits(model: .edit(.code_davinci_edit_001),
-                                        input: input,
-                                        instruction: instructions)
-    print(result?.choices[0].text ?? "")
+    let edits = try await openAI.edits(model: .edit(.text_davinci_edit_001), input: inputText, instruction: instruction)
+  print(edits)
 } catch {
-    print(error)
+  print("Error: \(error)")
 }
 ```
 
@@ -117,11 +129,26 @@ do {
     let images = try await openAI.createImages(prompt: prompt,
                                                numberOfImages: 4,
                                                size: .s1024)
+    print(images)                                               
 } catch {
-    isLoading = false
-    print(error.localizedDescription)
+    print("Error: \(error)")
 }
 ```
+
+## [Embeddings](https://platform.openai.com/docs/api-reference/embeddings)
+Get a vector representation of a given input that can be easily consumed by machine learning models and algorithms.
+
+```swift
+let inputText = "Embeddings are a numerical representation of text."
+
+do {
+  let embeddings = try await openAI.embeddings(model: .embedding(.text_embedding_ada_002), input: inputText)
+  print(embeddings)
+} catch {
+  print("Error: \(error)")
+}
+```
+
 ---
 
 ## Code Examples using the API
