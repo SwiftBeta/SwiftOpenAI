@@ -18,6 +18,8 @@ enum OpenAIEndpoints {
                      numberOfImages: Int,
                      size: ImageSize)
     
+    case embeddings(model: OpenAIModelType, input: String)
+    
     public var endpoint: Endpoint {
         switch self {
         case .listModels:
@@ -37,6 +39,9 @@ enum OpenAIEndpoints {
             return CreateImageEndpoint(prompt: prompt,
                                        numberOfImages: numberOfImages,
                                        size: size)
+        case .embeddings(model: let model, input: let input):
+            return CreateEmbeddingsEndpoint(model: model,
+                                            input: input)
         }
     }
 }
