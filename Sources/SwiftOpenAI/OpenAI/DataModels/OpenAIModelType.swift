@@ -4,6 +4,7 @@ public enum OpenAIModelType {
     case gpt4(GPT4)
     case gpt3_5(GPT3_5)
     case edit(EditModel)
+    case embedding(EmbeddingModel)
     
     var name: String {
         switch self {
@@ -13,6 +14,8 @@ public enum OpenAIModelType {
             return gpt3_5Model.rawValue
         case .edit(let editModel):
             return editModel.rawValue
+        case .embedding(let embeddingModel):
+            return embeddingModel.rawValue
         }
     }
 }
@@ -35,4 +38,8 @@ public enum GPT3_5: String {
 public enum EditModel: String {
     case text_davinci_edit_001 = "text-davinci-edit-001"
     case code_davinci_edit_001 = "code-davinci-edit-001"
+}
+
+public enum EmbeddingModel: String {
+    case text_embedding_ada_002 = "text-embedding-ada-002"
 }

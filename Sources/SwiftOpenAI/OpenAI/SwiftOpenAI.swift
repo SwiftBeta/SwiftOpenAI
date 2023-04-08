@@ -19,6 +19,9 @@ protocol OpenAIProtocol {
                instruction: String) async throws -> EditsDataModel?
     
     func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel?
+    
+    func embeddings(model: OpenAIModelType,
+                    input: String) async throws -> EmbeddingResponseDataModel?
 }
 
 public class SwiftOpenAI: OpenAIProtocol {
@@ -31,6 +34,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let createChatCompletionsStreamRequest: CreateChatCompletionsStreamRequest.Init
     private let editsRequest: EditsRequest.Init
     private let createImagesRequest: CreateImagesRequest.Init
+    private let embeddingRequest: EmbeddingsRequest.Init
     
     public init(api: API = API(),
                 apiKey: String,
@@ -39,7 +43,8 @@ public class SwiftOpenAI: OpenAIProtocol {
                 createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute,
                 createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
                 editsRequest: @escaping EditsRequest.Init = EditsRequest().execute,
-                createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute) {
+                createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute,
+                embeddingRequest: @escaping EmbeddingsRequest.Init = EmbeddingsRequest().execute) {
         self.api = api
         self.apiKey = apiKey
         self.listModelsRequest = listModelsRequest
@@ -48,6 +53,7 @@ public class SwiftOpenAI: OpenAIProtocol {
         self.createChatCompletionsStreamRequest = createChatCompletionsStreamRequest
         self.editsRequest = editsRequest
         self.createImagesRequest = createImagesRequest
+        self.embeddingRequest = embeddingRequest
     }
     
     public func listModels() async throws -> ModelListDataModel? {
@@ -78,5 +84,9 @@ public class SwiftOpenAI: OpenAIProtocol {
     
     public func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel? {
         try await createImagesRequest(api, apiKey, prompt, numberOfImages, size)
+    }
+    
+    public func embeddings(model: OpenAIModelType, input: String) async throws -> EmbeddingResponseDataModel? {
+        try await embeddingRequest(api, apiKey, model, input)
     }
 }
