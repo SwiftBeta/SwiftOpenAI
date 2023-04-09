@@ -1,10 +1,10 @@
 import XCTest
 @testable import SwiftOpenAI
 
-final class EmbeddingParserSpec: XCTestCase {
+final class EmbeddingsParserSpec: XCTestCase {
     private var api = API()
     
-    func testAsyncAPIRequest_ParsesValidJSONToEditsDataModel() async throws {
+    func testAsyncAPIRequest_ParsesValidJSONToEmbeddingsDataModel() async throws {
         let jsonData = loadJSON(name: "embeddings")
         
         let jsonDecoder = JSONDecoder()

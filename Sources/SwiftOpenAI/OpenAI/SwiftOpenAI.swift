@@ -22,6 +22,8 @@ protocol OpenAIProtocol {
     
     func embeddings(model: OpenAIModelType,
                     input: String) async throws -> EmbeddingResponseDataModel?
+    
+    func moderations(input: String) async throws -> ModerationDataModel?
 }
 
 public class SwiftOpenAI: OpenAIProtocol {
@@ -34,7 +36,8 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let createChatCompletionsStreamRequest: CreateChatCompletionsStreamRequest.Init
     private let editsRequest: EditsRequest.Init
     private let createImagesRequest: CreateImagesRequest.Init
-    private let embeddingRequest: EmbeddingsRequest.Init
+    private let embeddingsRequest: EmbeddingsRequest.Init
+    private let moderationsRequest: ModerationsRequest.Init
     
     public init(api: API = API(),
                 apiKey: String,
@@ -44,7 +47,8 @@ public class SwiftOpenAI: OpenAIProtocol {
                 createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
                 editsRequest: @escaping EditsRequest.Init = EditsRequest().execute,
                 createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute,
-                embeddingRequest: @escaping EmbeddingsRequest.Init = EmbeddingsRequest().execute) {
+                embeddingsRequest: @escaping EmbeddingsRequest.Init = EmbeddingsRequest().execute,
+                moderationsRequest: @escaping ModerationsRequest.Init = ModerationsRequest().execute) {
         self.api = api
         self.apiKey = apiKey
         self.listModelsRequest = listModelsRequest
@@ -53,7 +57,8 @@ public class SwiftOpenAI: OpenAIProtocol {
         self.createChatCompletionsStreamRequest = createChatCompletionsStreamRequest
         self.editsRequest = editsRequest
         self.createImagesRequest = createImagesRequest
-        self.embeddingRequest = embeddingRequest
+        self.embeddingsRequest = embeddingsRequest
+        self.moderationsRequest = moderationsRequest
     }
     
     /**
@@ -285,9 +290,37 @@ public class SwiftOpenAI: OpenAIProtocol {
           } catch {
               print("Error: \(error)")
           }
-
     */
     public func embeddings(model: OpenAIModelType, input: String) async throws -> EmbeddingResponseDataModel? {
-        try await embeddingRequest(api, apiKey, model, input)
+        try await embeddingsRequest(api, apiKey, model, input)
+    }
+    
+    /**
+      Moderates the content of a given input string using a moderation API.
+
+      This method uses the moderation API to analyze and moderate the content of a given input string. The analysis includes detecting and categorizing potentially harmful, inappropriate or explicit content within the input text. The moderation results can be used for content filtering, user behavior analysis, or other moderation purposes.
+
+      The method makes use of the new Swift concurrency model and supports async/await calls.
+
+      - Parameters:
+        - input: A `String` representing the input text to be moderated.
+
+      - Throws: An error if the API call fails, or if there is a problem with parsing the received JSON data.
+
+      - Returns: An optional `ModerationDataModel` object containing the moderation results for the given input. Returns `nil` if there was an issue fetching the data or parsing the JSON response.
+
+      Example usage:
+
+          let inputText = "Some potentially harmful or explicit content."
+
+          do {
+              let moderationResults = try await moderations(input: inputText)
+              print(moderationResults)
+          } catch {
+              print("Error: \(error)")
+          }
+    */
+    public func moderations(input: String) async throws -> ModerationDataModel? {
+        try await moderationsRequest(api, apiKey, input)
     }
 }

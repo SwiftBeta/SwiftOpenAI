@@ -1,8 +1,8 @@
 import XCTest
 @testable import SwiftOpenAI
 
-final class EmbeddingEndpointSpec: XCTestCase {
-    func testEndpointCompletions_WithDavinciModelInput_CreatesCorrectEndpointParameters() throws {
+final class EmbeddingsEndpointSpec: XCTestCase {
+    func testEndpointCompletions_WithEmbeddingADA002ModelInput_CreatesCorrectEndpointParameters() throws {
         let model: OpenAIModelType = .embedding(.text_embedding_ada_002)
         let input = "What day of the wek is it?"
         
