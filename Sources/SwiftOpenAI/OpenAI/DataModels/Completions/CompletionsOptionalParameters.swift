@@ -14,7 +14,7 @@ public struct CompletionsOptionalParameters {
     public let frequencyPenalty: Int?
     public let bestOf: Int?
     public let user: String?
-    
+
     public init(prompt: String,
                 suffix: String = "",
                 maxTokens: Int? = 16,

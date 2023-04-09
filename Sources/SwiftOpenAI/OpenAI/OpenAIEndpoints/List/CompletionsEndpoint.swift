@@ -3,20 +3,20 @@ import Foundation
 struct CompletionsEndpoint: Endpoint {
     private let model: OpenAIModelType
     private let optionalParameters: CompletionsOptionalParameters?
-    
+
     var method: HTTPMethod {
         .POST
     }
-    
+
     var path: String = "completions"
-    
+
     init(model: OpenAIModelType,
          optionalParameters: CompletionsOptionalParameters?) {
         self.model = model
         self.optionalParameters = optionalParameters
     }
-    
-    var parameters: [String : Any]? {
+
+    var parameters: [String: Any]? {
         ["model": self.model.name as Any,
          "prompt": self.optionalParameters?.prompt as Any,
          "suffix": self.optionalParameters?.suffix as Any,
@@ -30,7 +30,7 @@ struct CompletionsEndpoint: Endpoint {
          "presence_penalty": self.optionalParameters?.presencePenalty as Any,
          "frequency_penalty": self.optionalParameters?.frequencyPenalty as Any,
          "best_of": self.optionalParameters?.bestOf as Any,
-         "user": self.optionalParameters?.user as Any,
+         "user": self.optionalParameters?.user as Any
         ]
     }
 }

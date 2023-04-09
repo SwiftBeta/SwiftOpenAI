@@ -3,7 +3,7 @@ import Foundation
 public struct ModelListDataModel: Decodable {
     let data: [ModelDataModel]
     let object: String
-    
+
     public init(data: [ModelDataModel], object: String) {
         self.data = data
         self.object = object

@@ -10,14 +10,13 @@ public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
         case streamError = "\"error\": {\n"
         case streamFinished = "[DONE]"
     }
-    
+
     public init() { }
-    
-    public func parse(data: Data) throws -> [ChatCompletionsStreamDataModel] {        
+
+    public func parse(data: Data) throws -> [ChatCompletionsStreamDataModel] {
         guard let dataString = String(data: data, encoding: .utf8) else {
             return []
         }
-        
         return try extractDataLine(from: dataString).map {
             guard let jsonData = $0.data(using: .utf8) else {
                 return nil
@@ -29,13 +28,13 @@ public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
             }
         }.compactMap { $0 }
     }
-    
+
     private func extractDataLine(from dataString: String,
                                  dataPrefix: String = Constant.streamData.rawValue) throws -> [String] {
         if dataString.contains(Constant.streamError.rawValue) {
             return [dataString]
         } else {
-            let lines = dataString.split(separator: "\n\n").map { String ($0) }
+            let lines = dataString.split(separator: "\n\n").map { String($0) }
             return lines.map {
                 $0.dropFirst(dataPrefix.count).trimmingCharacters(in: .whitespaces)
             }

@@ -3,15 +3,15 @@ import Foundation
 struct ChatCompletionsEndpoint: Endpoint {
     private let model: OpenAIModelType
     private var messages: [[String: String]] = []
-    
+
     private let optionalParameters: ChatCompletionsOptionalParameters?
-    
+
     var method: HTTPMethod {
         .POST
     }
-    
+
     var path: String = "chat/completions"
-    
+
     init(model: OpenAIModelType,
          messages: [MessageChatGPT],
          optionalParameters: ChatCompletionsOptionalParameters?) {
@@ -19,8 +19,8 @@ struct ChatCompletionsEndpoint: Endpoint {
         self.messages = Self.mapMessageModelToDictionary(messages: messages)
         self.optionalParameters = optionalParameters
     }
-    
-    var parameters: [String : Any]? {
+
+    var parameters: [String: Any]? {
         ["model": self.model.name as Any,
          "messages": self.messages as Any,
          "temperature": self.optionalParameters?.temperature as Any,
@@ -30,7 +30,7 @@ struct ChatCompletionsEndpoint: Endpoint {
          "stream": self.optionalParameters?.stream as Any,
          "max_tokens": self.optionalParameters?.maxTokens as Any]
     }
-    
+
     private static func mapMessageModelToDictionary(messages: [MessageChatGPT]) -> [[String: String]] {
         return messages.map {
             ["role": $0.role.rawValue, "content": $0.text]
