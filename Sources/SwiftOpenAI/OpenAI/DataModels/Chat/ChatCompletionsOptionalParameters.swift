@@ -8,7 +8,7 @@ public struct ChatCompletionsOptionalParameters {
     public let stream: Bool
     public let maxTokens: Int?
     public let user: String?
-    
+
     public init(temperature: Double = 1.0,
                 topP: Int = 1,
                 n: Int = 1,

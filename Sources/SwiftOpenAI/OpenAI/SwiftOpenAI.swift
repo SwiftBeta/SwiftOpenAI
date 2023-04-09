@@ -2,34 +2,36 @@ import Foundation
 
 protocol OpenAIProtocol {
     func listModels() async throws -> ModelListDataModel?
-    
+
     func completions(model: OpenAIModelType,
                      optionalParameters: CompletionsOptionalParameters?) async throws -> CompletionsDataModel?
-    
+
     func createChatCompletions(model: OpenAIModelType,
                                messages: [MessageChatGPT],
                                optionalParameters: ChatCompletionsOptionalParameters?) async throws -> ChatCompletionsDataModel?
-    
+
     func createChatCompletionsStream(model: OpenAIModelType,
                                      messages: [MessageChatGPT],
-                                     optionalParameters: ChatCompletionsOptionalParameters?) async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error>
-    
+                                     optionalParameters: ChatCompletionsOptionalParameters?)
+    async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error>
+
     func edits(model: OpenAIModelType,
                input: String,
                instruction: String) async throws -> EditsDataModel?
-    
+
     func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel?
-    
+
     func embeddings(model: OpenAIModelType,
                     input: String) async throws -> EmbeddingResponseDataModel?
-    
+
     func moderations(input: String) async throws -> ModerationDataModel?
 }
 
+// swiftlint:disable line_length
 public class SwiftOpenAI: OpenAIProtocol {
     private let api: API
     private let apiKey: String
-    
+
     private let listModelsRequest: ListModelsRequest.Init
     private let completionsRequest: CompletionsRequest.Init
     private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
@@ -38,7 +40,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let createImagesRequest: CreateImagesRequest.Init
     private let embeddingsRequest: EmbeddingsRequest.Init
     private let moderationsRequest: ModerationsRequest.Init
-    
+
     public init(api: API = API(),
                 apiKey: String,
                 listModelsRequest: @escaping ListModelsRequest.Init = ListModelsRequest().execute,
@@ -60,7 +62,7 @@ public class SwiftOpenAI: OpenAIProtocol {
         self.embeddingsRequest = embeddingsRequest
         self.moderationsRequest = moderationsRequest
     }
-    
+
     /**
       Retrieves a list of available OpenAI models using the OpenAI API.
 
@@ -85,7 +87,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     public func listModels() async throws -> ModelListDataModel? {
         try await listModelsRequest(api, apiKey)
     }
-    
+
     /**
       Generates completions for a given prompt using the OpenAI API with a specified model and optional parameters.
 
@@ -117,7 +119,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     public func completions(model: OpenAIModelType, optionalParameters: CompletionsOptionalParameters?) async throws -> CompletionsDataModel? {
         try await completionsRequest(api, apiKey, model, optionalParameters)
     }
-    
+
     /**
       Generates completions for a chat-based conversation using the OpenAI API with a specified model and optional parameters, returning the entire response as a single object.
 
@@ -155,7 +157,7 @@ public class SwiftOpenAI: OpenAIProtocol {
                                       optionalParameters: ChatCompletionsOptionalParameters? = nil) async throws -> ChatCompletionsDataModel? {
         try await createChatCompletionsRequest(api, apiKey, model, messages, optionalParameters)
     }
-    
+
     /**
       Generates completions for a chat-based conversation using the OpenAI API with a specified model and optional parameters, returning an asynchronous throwing stream of responses.
 
@@ -195,7 +197,7 @@ public class SwiftOpenAI: OpenAIProtocol {
                                             optionalParameters: ChatCompletionsOptionalParameters? = nil) async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error> {
         try createChatCompletionsStreamRequest(api, apiKey, model, messages, optionalParameters)
     }
-    
+
     /**
       Generates suggested edits for a given input string based on a provided instruction using the specified OpenAI model.
 
@@ -230,7 +232,7 @@ public class SwiftOpenAI: OpenAIProtocol {
                       instruction: String) async throws -> EditsDataModel? {
         try await editsRequest(api, apiKey, model, input, instruction)
     }
-    
+
     /**
       Generates images based on a given prompt using the OpenAI DALL-E 2 API.
 
@@ -264,7 +266,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     public func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel? {
         try await createImagesRequest(api, apiKey, prompt, numberOfImages, size)
     }
-    
+
     /**
       Generates embeddings for a given input string using the specified OpenAI model.
 
@@ -294,7 +296,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     public func embeddings(model: OpenAIModelType, input: String) async throws -> EmbeddingResponseDataModel? {
         try await embeddingsRequest(api, apiKey, model, input)
     }
-    
+
     /**
       Moderates the content of a given input string using a moderation API.
 
@@ -324,3 +326,4 @@ public class SwiftOpenAI: OpenAIProtocol {
         try await moderationsRequest(api, apiKey, input)
     }
 }
+// swiftlint:enable line_length

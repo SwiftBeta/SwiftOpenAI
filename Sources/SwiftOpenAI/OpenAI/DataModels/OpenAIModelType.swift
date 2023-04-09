@@ -5,7 +5,7 @@ public enum OpenAIModelType {
     case gpt3_5(GPT3_5)
     case edit(EditModel)
     case embedding(EmbeddingModel)
-    
+
     var name: String {
         switch self {
         case .gpt4(let gpt4Model):

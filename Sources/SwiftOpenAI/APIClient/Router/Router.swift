@@ -6,7 +6,7 @@ public protocol RouterProtocol {
 
 final public class Router: RouterProtocol {
     public init() { }
-    
+
     public func routeEndpoint(_ endpoint: inout Endpoint, environment: BaseEnvironmentType) {
         var url = URL(string: environment.url)!
         url.appendPathComponent(endpoint.path)

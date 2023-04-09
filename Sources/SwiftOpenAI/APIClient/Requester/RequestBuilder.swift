@@ -8,11 +8,11 @@ public protocol RequestBuilderProtocol {
 final public class RequestBuilder: RequestBuilderProtocol {
 
     public init() { }
-    
+
     public func buildURLRequest(endpoint: Endpoint) -> URLRequest {
         var urlRequest = URLRequest(url: URL(string: endpoint.path)!)
         urlRequest.httpMethod = endpoint.method.rawValue
-        
+
         switch endpoint.method {
         case .POST:
             guard let parameters = endpoint.parameters,
@@ -32,10 +32,10 @@ final public class RequestBuilder: RequestBuilderProtocol {
             })
             urlRequest.url = urlComponents?.url
         }
-        
+
         return urlRequest
     }
-    
+
     public func addHeaders(urlRequest: inout URLRequest, headers: [String: String]) {
         headers.forEach { key, value in
             urlRequest.setValue(value, forHTTPHeaderField: key)

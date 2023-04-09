@@ -2,26 +2,26 @@ import Foundation
 
 enum OpenAIEndpoints {
     case listModels
-        
+
     case completions(model: OpenAIModelType,
                      optionalParameters: CompletionsOptionalParameters?)
-    
+
     case chatCompletions(model: OpenAIModelType,
                          messages: [MessageChatGPT],
                          optionalParameters: ChatCompletionsOptionalParameters?)
-    
+
     case edits(model: OpenAIModelType,
                input: String,
                instruction: String)
-    
+
     case createImage(prompt: String,
                      numberOfImages: Int,
                      size: ImageSize)
-    
+
     case embeddings(model: OpenAIModelType, input: String)
-    
+
     case moderations(input: String)
-    
+
     public var endpoint: Endpoint {
         switch self {
         case .listModels:

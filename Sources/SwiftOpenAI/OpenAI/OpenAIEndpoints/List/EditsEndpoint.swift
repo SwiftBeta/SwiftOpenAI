@@ -4,13 +4,13 @@ struct EditsEndpoint: Endpoint {
     private let model: OpenAIModelType
     private let input: String
     private let instruction: String
-    
+
     var method: HTTPMethod {
         .POST
     }
-    
+
     var path: String = "edits"
-    
+
     init(model: OpenAIModelType,
          input: String,
          instruction: String) {
@@ -18,11 +18,11 @@ struct EditsEndpoint: Endpoint {
         self.input = input
         self.instruction = instruction
     }
-    
-    var parameters: [String : Any]? {
+
+    var parameters: [String: Any]? {
         ["model": self.model.name as Any,
          "input": self.input as Any,
-         "instruction": self.instruction as Any,
+         "instruction": self.instruction as Any
         ]
     }
 }

@@ -6,7 +6,7 @@ public struct ChatCompletionsStreamDataModel: Decodable {
     public var created: Int
     public var model: String
     public var choices: [ChoicesStreamDataModel]
-    
+
     static var finished: ChatCompletionsStreamDataModel = {
         .init(id: UUID().uuidString,
               object: "",
@@ -24,11 +24,11 @@ public struct ChoicesStreamDataModel: Decodable {
 
 public struct DeltaDataModel: Decodable {
     public let content: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case content
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         content = try container.decodeIfPresent(String.self, forKey: .content)
