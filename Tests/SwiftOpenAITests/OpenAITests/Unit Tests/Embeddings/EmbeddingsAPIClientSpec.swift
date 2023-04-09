@@ -1,13 +1,13 @@
 import XCTest
 @testable import SwiftOpenAI
 
-final class EmbeddingAPIClientSpec: XCTestCase {
+final class EmbeddingsAPIClientSpec: XCTestCase {
     private var sut: EmbeddingsRequestProtocol!
     private let model: OpenAIModelType = .embedding(.text_embedding_ada_002)
     private let apiKey = "1234567890"
     private let input = "What day of the wek is it?"
     
-    func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
+    func testAsyncAPIRequest_ParsesValidJSONToEmbeddingsDataModel() async throws {
         let json = loadJSON(name: "embeddings")
         
         let api = API(requester: RequesterMock())

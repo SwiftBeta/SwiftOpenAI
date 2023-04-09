@@ -1,7 +1,7 @@
 import XCTest
 @testable import SwiftOpenAI
 
-final class EmbeddingRequestSpec: XCTestCase {
+final class EmbeddingsRequestSpec: XCTestCase {
     private let api = API()
 
     func testRequest_CreatedWithCorrectHeaders() throws {
