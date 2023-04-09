@@ -149,6 +149,20 @@ do {
 }
 ```
 
+## [Moderations](https://platform.openai.com/docs/api-reference/embeddings)
+Given a input text, outputs if the model classifies it as violating OpenAI's content policy.
+
+```swift
+let inputText = "Some potentially harmful or explicit content."
+
+do {
+    let moderationResults = try await openAI.moderations(input: inputText)
+    print(moderationResults)
+} catch {
+    print("Error: \(error)")
+}
+```
+
 ---
 
 ## Code Examples using the API
