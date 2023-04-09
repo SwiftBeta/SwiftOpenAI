@@ -16,8 +16,7 @@ final class EditsAPIClientSpec: XCTestCase {
         
         sut = EditsRequest()
         
-        stubHTTP(model: model,
-                 endpoint: endpoint,
+        stubHTTP(endpoint: endpoint,
                  json: json,
                  statusCode: 200)
         
@@ -38,8 +37,7 @@ final class EditsAPIClientSpec: XCTestCase {
         }
     }
     
-    private func stubHTTP(model: OpenAIModelType,
-                          endpoint: Endpoint,
+    private func stubHTTP(endpoint: Endpoint,
                           json: Data,
                           statusCode: Int) {
         

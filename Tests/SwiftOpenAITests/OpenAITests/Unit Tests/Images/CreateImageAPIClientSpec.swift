@@ -18,8 +18,7 @@ final class CreateImageAPIClientSpec: XCTestCase {
         
         sut = CreateImagesRequest()
         
-        stubHTTP(model: model,
-                 endpoint: endpoint,
+        stubHTTP(endpoint: endpoint,
                  json: json,
                  statusCode: 200)
         
@@ -37,8 +36,7 @@ final class CreateImageAPIClientSpec: XCTestCase {
         }
     }
     
-    private func stubHTTP(model: OpenAIModelType,
-                          endpoint: Endpoint,
+    private func stubHTTP(endpoint: Endpoint,
                           json: Data,
                           statusCode: Int) {
         
