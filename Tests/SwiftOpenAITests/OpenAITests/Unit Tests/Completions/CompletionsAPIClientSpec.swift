@@ -15,8 +15,7 @@ final class CompletionAPIClientSpec: XCTestCase {
         
         sut = CompletionsRequest()
         
-        stubHTTP(model: model,
-                 endpoint: endpoint,
+        stubHTTP(endpoint: endpoint,
                  json: json,
                  statusCode: 200)
         
@@ -47,8 +46,7 @@ final class CompletionAPIClientSpec: XCTestCase {
         
         sut = CompletionsRequest()
         
-        stubHTTP(model: model,
-                 endpoint: endpoint,
+        stubHTTP(endpoint: endpoint,
                  json: json,
                  statusCode: 401)
         
@@ -64,8 +62,7 @@ final class CompletionAPIClientSpec: XCTestCase {
         }
     }
     
-    private func stubHTTP(model: OpenAIModelType,
-                          endpoint: Endpoint,
+    private func stubHTTP(endpoint: Endpoint,
                           json: Data,
                           statusCode: Int) {
         
