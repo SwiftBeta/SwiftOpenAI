@@ -34,7 +34,8 @@ public struct ChatCompletionsStreamMapper: ChatCompletionsStreamMappeable {
         if dataString.contains(Constant.streamError.rawValue) {
             return [dataString]
         } else {
-            let lines = dataString.split(separator: "\n\n").map { String($0) }
+            let lines = dataString.components(separatedBy: "\n\n")
+                .filter { !$0.isEmpty }
             return lines.map {
                 $0.dropFirst(dataPrefix.count).trimmingCharacters(in: .whitespaces)
             }
