@@ -15,11 +15,7 @@ protocol OpenAIProtocol {
                                      optionalParameters: ChatCompletionsOptionalParameters?)
     async throws -> AsyncThrowingStream<ChatCompletionsStreamDataModel, Error>
 
-    func edits(model: OpenAIModelType,
-               input: String,
-               instruction: String) async throws -> EditsDataModel?
-
-    func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel?
+    func createImages(model: OpenAIImageModelType, prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel?
 
     func embeddings(model: OpenAIModelType,
                     input: String) async throws -> EmbeddingResponseDataModel?
@@ -36,7 +32,6 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let completionsRequest: CompletionsRequest.Init
     private let createChatCompletionsRequest: CreateChatCompletionsRequest.Init
     private let createChatCompletionsStreamRequest: CreateChatCompletionsStreamRequest.Init
-    private let editsRequest: EditsRequest.Init
     private let createImagesRequest: CreateImagesRequest.Init
     private let embeddingsRequest: EmbeddingsRequest.Init
     private let moderationsRequest: ModerationsRequest.Init
@@ -47,7 +42,6 @@ public class SwiftOpenAI: OpenAIProtocol {
                 completionsRequest: @escaping CompletionsRequest.Init = CompletionsRequest().execute,
                 createChatCompletionsRequest: @escaping CreateChatCompletionsRequest.Init = CreateChatCompletionsRequest().execute,
                 createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
-                editsRequest: @escaping EditsRequest.Init = EditsRequest().execute,
                 createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute,
                 embeddingsRequest: @escaping EmbeddingsRequest.Init = EmbeddingsRequest().execute,
                 moderationsRequest: @escaping ModerationsRequest.Init = ModerationsRequest().execute) {
@@ -57,7 +51,6 @@ public class SwiftOpenAI: OpenAIProtocol {
         self.completionsRequest = completionsRequest
         self.createChatCompletionsRequest = createChatCompletionsRequest
         self.createChatCompletionsStreamRequest = createChatCompletionsStreamRequest
-        self.editsRequest = editsRequest
         self.createImagesRequest = createImagesRequest
         self.embeddingsRequest = embeddingsRequest
         self.moderationsRequest = moderationsRequest
@@ -109,7 +102,7 @@ public class SwiftOpenAI: OpenAIProtocol {
           let optionalParameters = CompletionsOptionalParameters(prompt: prompt, maxTokens: 50, temperature: 0.7, n: 1)
           
           do {
-              let completions = try await completions(model: .gpt3_5(.text_davinci_003), optionalParameters: optionalParameters)
+              let completions = try await completions(model: .gpt3_5(.gpt_3_5_turbo_1106), optionalParameters: optionalParameters)
               print(completions)
           } catch {
               print("Error: \(error)")
@@ -199,41 +192,6 @@ public class SwiftOpenAI: OpenAIProtocol {
     }
 
     /**
-      Generates suggested edits for a given input string based on a provided instruction using the specified OpenAI model.
-
-      This method uses the OpenAI API to generate suggested edits for a given input string based on a provided instruction using the specified model. The edits can be used for tasks such as proofreading or content modification.
-
-      The method makes use of the new Swift concurrency model and supports async/await calls.
-
-      - Parameters:
-        - model: An `OpenAIModelType` value representing the desired OpenAI model to use for generating suggested edits.
-        - input: A `String` representing the input text for which suggested edits will be generated.
-        - instruction: A `String` representing the instruction that guides the editing process.
-
-      - Throws: An error if the API call fails, or if there is a problem with parsing the received JSON data.
-
-      - Returns: An optional `EditsDataModel` object containing the suggested edits for the given input based on the provided instruction. Returns `nil` if there was an issue fetching the data or parsing the JSON response.
-
-      Example usage:
-
-          let inputText = "The car have four weels."
-          let instruction = "Please correct any grammatical errors in the text."
-          
-          do {
-              let edits = try await edits(model: .edit(.text_davinci_edit_001), input: inputText, instruction: instruction)
-              print(edits)
-          } catch {
-              print("Error: \(error)")
-          }
-
-    */
-    public func edits(model: OpenAIModelType,
-                      input: String,
-                      instruction: String) async throws -> EditsDataModel? {
-        try await editsRequest(api, apiKey, model, input, instruction)
-    }
-
-    /**
       Generates images based on a given prompt using the OpenAI DALL-E 2 API.
 
       This method uses the OpenAI DALL-E 2 API to generate images based on a given prompt. You can specify the number of images you want to generate and the size of the generated images.
@@ -263,8 +221,8 @@ public class SwiftOpenAI: OpenAIProtocol {
           }
 
     */
-    public func createImages(prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel? {
-        try await createImagesRequest(api, apiKey, prompt, numberOfImages, size)
+    public func createImages(model: OpenAIImageModelType, prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel? {
+        try await createImagesRequest(api, apiKey, model, prompt, numberOfImages, size)
     }
 
     /**

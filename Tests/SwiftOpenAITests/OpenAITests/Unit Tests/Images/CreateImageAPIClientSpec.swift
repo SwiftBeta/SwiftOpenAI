@@ -14,7 +14,7 @@ final class CreateImageAPIClientSpec: XCTestCase {
         
         let api = API(requester: RequesterMock())
         
-        let endpoint = OpenAIEndpoints.createImage(prompt: prompt, numberOfImages: numberOfImages, size: size).endpoint
+        let endpoint = OpenAIEndpoints.createImage(model: .dalle(.dalle3), prompt: prompt, numberOfImages: numberOfImages, size: size).endpoint
         
         sut = CreateImagesRequest()
         
@@ -23,7 +23,7 @@ final class CreateImageAPIClientSpec: XCTestCase {
                  statusCode: 200)
         
         do {
-            let dataModel = try await sut.execute(api: api, apiKey: apiKey, prompt: prompt, numberOfImages: numberOfImages, size: size)
+            let dataModel = try await sut.execute(api: api, apiKey: apiKey, model: .dalle(.dalle3), prompt: prompt, numberOfImages: numberOfImages, size: size)
             XCTAssertNotNil(dataModel)
             XCTAssertEqual(dataModel?.created, 1589478378)
             XCTAssertEqual(dataModel?.data.count, 4)
