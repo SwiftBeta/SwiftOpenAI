@@ -33,7 +33,7 @@ final class ModerationsAPIClientSpec: XCTestCase {
             XCTAssertEqual(dataModel?.results[0].categories.violenceGraphic, false)
             XCTAssertEqual(dataModel?.results[0].categoryScores.hate, 0.22714105248451233)
             XCTAssertEqual(dataModel?.results[0].categoryScores.hateThreatening, 0.4132447838783264)
-            XCTAssertEqual(dataModel?.results[0].categoryScores.selfHarm, 0.0052323918789625185)
+            XCTAssertEqual(dataModel?.results[0].categoryScores.selfHarm, 0.005232391878962517)
             XCTAssertEqual(dataModel?.results[0].categoryScores.sexual, 0.01407341007143259)
             XCTAssertEqual(dataModel?.results[0].categoryScores.sexualMinors, 0.0038522258400917053)
             XCTAssertEqual(dataModel?.results[0].categoryScores.violence, 0.9223177433013916)

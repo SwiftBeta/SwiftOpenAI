@@ -3,7 +3,7 @@ import XCTest
 
 final class CompletionsEndpointSpec: XCTestCase {
     func testEndpointCompletions_WithDavinciModelAndPrompt_CreatesCorrectEndpointParameters() throws {
-        let model: OpenAIModelType = .gpt3_5(.text_davinci_003)
+        let model: OpenAIModelType = .gpt3_5(.gpt_3_5_turbo_1106)
         let optionalParameters: CompletionsOptionalParameters = .init(prompt: "Say this is a test")
         let sut = OpenAIEndpoints.completions(model: model, optionalParameters: optionalParameters).endpoint
         
@@ -18,7 +18,7 @@ final class CompletionsEndpointSpec: XCTestCase {
     }
     
     func testEndpointCompletions_WithDavinciModelAndPrompt_WithOptionalParameters_CreatesCorrectEndpointParameters() throws {
-        let model: OpenAIModelType = .gpt3_5(.text_davinci_003)
+        let model: OpenAIModelType = .gpt3_5(.gpt_3_5_turbo_1106)
         let optionalParameters: CompletionsOptionalParameters = .init(prompt: "Say this is a test",
                                                                       maxTokens: 1024,
                                                                       temperature: 0.8)

@@ -6,7 +6,7 @@ final class CompletionRequestSpec: XCTestCase {
 
     func testRequest_CreatedWithCorrectHeaders() throws {
         let apiKey = "1234567890"
-        let model: OpenAIModelType = .gpt3_5(.text_davinci_003)
+        let model: OpenAIModelType = .gpt3_5(.gpt_3_5_turbo_1106)
         let optionalParameters: CompletionsOptionalParameters = .init(prompt: "Say this is a test")
         var endpoint = OpenAIEndpoints.completions(model: model, optionalParameters: optionalParameters).endpoint
         

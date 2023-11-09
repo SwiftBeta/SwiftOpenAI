@@ -10,7 +10,7 @@ final class CreateImageRequestSpec: XCTestCase {
         let prompt = "Pixar style 3D render of a baby hippo, 4k, high resolution, trending in artstation"
         let n = 4
         let size: ImageSize = .s1024
-        var endpoint = OpenAIEndpoints.createImage(prompt: prompt, numberOfImages: n, size: size).endpoint
+        var endpoint = OpenAIEndpoints.createImage(model: .dalle(.dalle2), prompt: prompt, numberOfImages: n, size: size).endpoint
         
         api.routeEndpoint(&endpoint, environment: OpenAIEnvironmentV1())
         

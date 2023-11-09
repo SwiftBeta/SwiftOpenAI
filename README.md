@@ -14,7 +14,7 @@
 
 ## Introduction
 
-`SwiftOpenAI` is a powerful and easy-to-use Swift SDK designed to seamlessly integrate with `OpenAI's API`. The main goal of this SDK is to simplify the process of accessing and interacting with OpenAI's cutting-edge AI models, such as GPT-4, GPT-3, and future models, all within your Swift applications.
+`SwiftOpenAI` is a (community-maintained) powerful and easy-to-use Swift SDK designed to seamlessly integrate with `OpenAI's API`. The main goal of this SDK is to simplify the process of accessing and interacting with OpenAI's cutting-edge AI models, such as GPT-4, GPT-3, and future models, all within your Swift applications.
 
 ![Untitled](https://user-images.githubusercontent.com/74316958/228327592-e45e7dc1-fa04-4042-81c8-dc1fca52ff47.gif)
 
@@ -60,7 +60,7 @@ let prompt = "Once upon a time, in a land far, far away,"
 let optionalParameters = CompletionsOptionalParameters(prompt: prompt, maxTokens: 50, temperature: 0.7, n: 1)
 
 do {
-    let completions = try await openAI.completions(model: .gpt3_5(.text_davinci_003), optionalParameters: optionalParameters)
+    let completions = try await openAI.completions(model: .gpt3_5(.turbo), optionalParameters: optionalParameters)
     print(completions)
 } catch {
     print("Error: \(error)")
@@ -106,30 +106,16 @@ do {
 }
 ```
 
-## [Edits](https://platform.openai.com/docs/api-reference/edits)
-Given a prompt and an instruction, the model will return an edited version of the prompt.
-
-```swift
-let inputText = "The car have four weels."
-let instruction = "Please correct any grammatical errors in the text."
-
-do {
-    let edits = try await openAI.edits(model: .edit(.text_davinci_edit_001), input: inputText, instruction: instruction)
-  print(edits)
-} catch {
-  print("Error: \(error)")
-}
-```
-
-## [Create Image with DALL·E 2](https://platform.openai.com/docs/api-reference/images/create)
+## [Create Image with DALL·E 3](https://platform.openai.com/docs/api-reference/images/create)
 Given a prompt and/or an input image, the model will generate a new image.
 
 ```swift
 do {
-    let images = try await openAI.createImages(prompt: prompt,
-                                               numberOfImages: 4,
+    let image = try await openAI.createImages(model: .dalle(.dalle3),
+                                               prompt: prompt,
+                                               numberOfImages: 1,
                                                size: .s1024)
-    print(images)                                               
+    print(image)                                               
 } catch {
     print("Error: \(error)")
 }
