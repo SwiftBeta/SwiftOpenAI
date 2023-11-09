@@ -3,7 +3,6 @@ import Foundation
 public enum OpenAIModelType {
     case gpt4(GPT4)
     case gpt3_5(GPT3_5)
-    case edit(EditModel)
     case embedding(EmbeddingModel)
 
     var name: String {
@@ -12,32 +11,42 @@ public enum OpenAIModelType {
             return gpt4Model.rawValue
         case .gpt3_5(let gpt3_5Model):
             return gpt3_5Model.rawValue
-        case .edit(let editModel):
-            return editModel.rawValue
         case .embedding(let embeddingModel):
             return embeddingModel.rawValue
         }
     }
 }
 
+public enum OpenAIImageModelType {
+    case dalle(Dalle)
+
+    var name: String {
+        switch self {
+        case .dalle(let model):
+            return model.rawValue
+        }
+    }
+}
+
 public enum GPT4: String {
     case base = "gpt-4"
-    case gpt_4_0314 = "gpt-4-0314"
+    case gpt_4_1106_preview = "gpt-4-1106-preview"
+    case gpt_4_vision_preview = "gpt-4-vision-preview"
     case gpt_4_32k = "gpt-4-32k"
-    case gpt_4_32k_0314 = "gpt-4-32k-0314"
+    case gpt_4_0613 = "gpt-4-0613"
+    case gpt_4_32k_0613 = "gpt-4-32k-0613"
 }
 
 public enum GPT3_5: String {
     case turbo = "gpt-3.5-turbo"
-    case gpt_3_5_turbo_0301 = "gpt-3.5-turbo-0301"
-    case text_davinci_003 = "text-davinci-003"
-    case text_davinci_002 = "text-davinci-002"
-    case code_davinci_002 = "code-davinci-002"
+    case gpt_3_5_turbo_1106 = "gpt-3.5-turbo-1106"
+    case gpt_3_5_turbo_16k = "gpt-3.5-turbo-16k"
+    case gpt_3_5_turbo_instruct = "gpt-3.5-turbo-instruct"
 }
 
-public enum EditModel: String {
-    case text_davinci_edit_001 = "text-davinci-edit-001"
-    case code_davinci_edit_001 = "code-davinci-edit-001"
+public enum Dalle: String {
+    case dalle2 = "dall-e-2"
+    case dalle3 = "dall-e-3"
 }
 
 public enum EmbeddingModel: String {

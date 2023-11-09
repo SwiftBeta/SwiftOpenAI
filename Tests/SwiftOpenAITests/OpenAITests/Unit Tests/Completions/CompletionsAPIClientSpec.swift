@@ -3,7 +3,7 @@ import XCTest
 
 final class CompletionAPIClientSpec: XCTestCase {
     private var sut: CompletionsRequestProtocol!
-    private let model: OpenAIModelType = .gpt3_5(.text_davinci_003)
+    private let model: OpenAIModelType = .gpt3_5(.gpt_3_5_turbo_1106)
     private let apiKey = "1234567890"
     private let optionalParameters: CompletionsOptionalParameters = .init(prompt: "Say this is a test")
     

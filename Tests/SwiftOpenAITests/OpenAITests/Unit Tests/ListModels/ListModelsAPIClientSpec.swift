@@ -3,7 +3,7 @@ import XCTest
 
 final class ListModelsAPIClientSpec: XCTestCase {
     private var sut: ListModelsRequestProtocol!
-    private let model: OpenAIModelType = .edit(.text_davinci_edit_001)
+    private let model: OpenAIModelType = .gpt4(.base)
     private let apiKey = "1234567890"
     
     func testAsyncAPIRequest_ParsesValidJSONToChatCompletionsDataModel() async throws {
