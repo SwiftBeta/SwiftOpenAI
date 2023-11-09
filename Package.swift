@@ -13,7 +13,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.2.0"),
-        .package(url: "https://github.com/realm/SwiftLint", from: "0.51.0")
+        .package(url: "https://github.com/realm/SwiftLint", from: "0.53.0")
     ],
     targets: [
         .target(
