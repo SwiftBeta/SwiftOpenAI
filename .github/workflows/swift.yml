@@ -11,12 +11,19 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        run: swift build
-      - name: Run tests
-        run: swift test
+    - uses: actions/checkout@v3
+
+    - name: Install SwiftLint
+      run: brew install swiftlint
+
+    - name: Run SwiftLint
+      run: swiftlint
+
+    - name: Build
+      run: swift build
+
+    - name: Run tests
+      run: swift test
