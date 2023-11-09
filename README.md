@@ -40,6 +40,36 @@ Using SwiftOpenAI` is simple and straightforward. Follow these steps to start in
 1. `Import SwiftOpenAI`
 2. `var openAI = SwiftOpenAI(apiKey: "YOUR-API-KEY")`
 
+## Secure your API Key using a .plist
+
+To use SwiftOpenAI safely without hardcoding your API key, follow these steps:
+
+- Create a .plist file: Add a new .plist file to your project, e.g., Config.plist.
+- Add your API Key: Inside Config.plist, add a new row with the Key OpenAI_API_Key and paste your API key in the Value field.
+- Load the API Key: Use the following code to load your API key from the .plist:
+
+```swift
+import Foundation
+import SwiftOpenAI
+
+struct Config {
+    static var openAIKey: String {
+        get {
+            guard let filePath = Bundle.main.path(forResource: "Config", ofType: "plist") else {
+                fatalError("Couldn't find file 'Config.plist'.")
+            }
+            let plist = NSDictionary(contentsOfFile: filePath)
+            guard let value = plist?.object(forKey: "OpenAI_API_Key") as? String else {
+                fatalError("Couldn't find key 'OpenAI_API_Key' in 'Config.plist'.")
+            }
+            return value
+        }
+    }
+}
+
+var openAI = SwiftOpenAI(apiKey: Config.openAIKey)
+```
+
 ## [Models](https://platform.openai.com/docs/api-reference/models)
 List and describe the various models available in the API. You can refer to the Models documentation to understand what models are available and the differences between them.
 
