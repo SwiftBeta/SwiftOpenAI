@@ -17,10 +17,11 @@ protocol OpenAIProtocol {
 
     func createImages(model: OpenAIImageModelType, prompt: String, numberOfImages: Int, size: ImageSize) async throws -> CreateImageDataModel?
 
-    func embeddings(model: OpenAIModelType,
-                    input: String) async throws -> EmbeddingResponseDataModel?
+    func embeddings(model: OpenAIModelType, input: String) async throws -> EmbeddingResponseDataModel?
 
     func moderations(input: String) async throws -> ModerationDataModel?
+    
+    func createSpeech(model: OpenAITTSModelType, input: String, voice: OpenAIVoiceType, responseFormat: OpenAIAudioResponseType, speed: Double) async throws -> Data?
 }
 
 // swiftlint:disable line_length
@@ -35,6 +36,7 @@ public class SwiftOpenAI: OpenAIProtocol {
     private let createImagesRequest: CreateImagesRequest.Init
     private let embeddingsRequest: EmbeddingsRequest.Init
     private let moderationsRequest: ModerationsRequest.Init
+    private let createSpeechRequest: CreateSpeechRequest.Init
 
     public init(api: API = API(),
                 apiKey: String,
@@ -44,7 +46,8 @@ public class SwiftOpenAI: OpenAIProtocol {
                 createChatCompletionsStreamRequest: @escaping CreateChatCompletionsStreamRequest.Init = CreateChatCompletionsStreamRequest().execute,
                 createImagesRequest: @escaping CreateImagesRequest.Init = CreateImagesRequest().execute,
                 embeddingsRequest: @escaping EmbeddingsRequest.Init = EmbeddingsRequest().execute,
-                moderationsRequest: @escaping ModerationsRequest.Init = ModerationsRequest().execute) {
+                moderationsRequest: @escaping ModerationsRequest.Init = ModerationsRequest().execute,
+                createSpeechRequest: @escaping CreateSpeechRequest.Init = CreateSpeechRequest().execute) {
         self.api = api
         self.apiKey = apiKey
         self.listModelsRequest = listModelsRequest
@@ -54,6 +57,7 @@ public class SwiftOpenAI: OpenAIProtocol {
         self.createImagesRequest = createImagesRequest
         self.embeddingsRequest = embeddingsRequest
         self.moderationsRequest = moderationsRequest
+        self.createSpeechRequest = createSpeechRequest
     }
 
     /**
@@ -282,6 +286,39 @@ public class SwiftOpenAI: OpenAIProtocol {
     */
     public func moderations(input: String) async throws -> ModerationDataModel? {
         try await moderationsRequest(api, apiKey, input)
+    }
+
+    /**
+      Generates speech audio from a given input text using the OpenAI Text-to-Speech API.
+
+      This method utilizes the OpenAI Text-to-Speech API to convert a provided input text into speech audio. You can specify the desired TTS model, voice type, response format, and speech speed. The generated audio can be saved, played, or used for various applications.
+
+      The method leverages Swift's concurrency model and supports async/await calls.
+
+      - Parameters:
+        - model: An `OpenAITTSModelType` representing the desired TTS model to use.
+        - input: A `String` containing the text to be converted into speech.
+        - voice: An `OpenAIVoiceType` specifying the voice style for the generated speech.
+        - responseFormat: An `OpenAIAudioResponseType` indicating the desired format of the audio response.
+        - speed: A `Double` representing the speech speed, with 1.0 being normal speed.
+
+      - Throws: An error if the API call fails or if there is an issue parsing the received audio data.
+
+      - Returns: An optional `Data` object containing the generated speech audio in the specified format. Returns `nil` if there was a problem fetching the data or parsing the audio response.
+
+      Example usage:
+
+          let inputText = "The quick brown fox jumped over the lazy dog."
+
+          do {
+              let audioData = try await createSpeech(model: .tts1, input: inputText, voice: .alloy, responseFormat: .mp3, speed: 1.0)
+              // Save, play, or process the audio data as needed
+          } catch {
+              print("Error: \(error)")
+          }
+    */
+    public func createSpeech(model: OpenAITTSModelType, input: String, voice: OpenAIVoiceType, responseFormat: OpenAIAudioResponseType, speed: Double) async throws -> Data? {
+        try await createSpeechRequest(api, apiKey, model, input, voice, responseFormat, speed)
     }
 }
 // swiftlint:enable line_length
