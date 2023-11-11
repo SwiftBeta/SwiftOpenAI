@@ -19,6 +19,8 @@ enum OpenAIEndpoints {
 
     case moderations(input: String)
 
+    case createSpeech(model: OpenAITTSModelType, input: String, voice: OpenAIVoiceType, responseFormat: OpenAIAudioResponseType, speed: Double)
+
     public var endpoint: Endpoint {
         switch self {
         case .listModels:
@@ -40,6 +42,8 @@ enum OpenAIEndpoints {
                                             input: input)
         case .moderations(input: let input):
             return ModerationEndpoint(input: input)
+        case .createSpeech(model: let model, input: let input, voice: let voice, responseFormat: let responseFormat, speed: let speed):
+            return CreateSpeechEndpoint(model: model, input: input, voice: voice, responseFormat: responseFormat, speed: speed)
         }
     }
 }
