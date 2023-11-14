@@ -16,7 +16,7 @@
 
 `SwiftOpenAI` is a (community-maintained) powerful and easy-to-use Swift SDK designed to seamlessly integrate with `OpenAI's API`. The main goal of this SDK is to simplify the process of accessing and interacting with OpenAI's cutting-edge AI models, such as GPT-4, GPT-3, and future models, all within your Swift applications.
 
-![Untitled](https://user-images.githubusercontent.com/74316958/228327592-e45e7dc1-fa04-4042-81c8-dc1fca52ff47.gif)
+![SwiftOpenAI Demo](https://github.com/SwiftBeta/SwiftOpenAI/assets/74316958/7a3d40c7-4859-454e-b4df-66d31a2339b3)
 
 ## ⚙️ Installation
 
