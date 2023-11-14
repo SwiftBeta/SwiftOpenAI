@@ -70,6 +70,56 @@ struct Config {
 var openAI = SwiftOpenAI(apiKey: Config.openAIKey)
 ```
 
+## [Audio Text To Speech](https://platform.openai.com/docs/api-reference/audio/createSpeech)
+Generates audio from the input text.
+
+```swift
+do {
+    let input = "Hello, I'm SwiftBeta, a developer who in his free time tries to teach through his blog swiftbeta.com and his YouTube channel. Now I'm adding the OpenAI API to transform this text into audio"
+    let data = try await openAI.createSpeech(model: .tts(.tts1), 
+                                             input: input,
+                                             voice: .alloy,
+                                             responseFormat: .mp3,
+                                             speed: 1.0)
+
+    if let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("speech.mp3"), let data {
+        do {
+            try data.write(to: filePath)
+            print("Audio file saved: \(filePath)")
+        } catch {
+            print("Error savind Audio file: \(error)")
+        }
+    }
+} catch {
+    print(error.localizedDescription)
+}
+```
+
+## [Audio Transcriptions](https://platform.openai.com/docs/api-reference/audio/createTranscription)
+Transcribes audio into the input language.
+
+```
+let fileData = // Data fromyour video, audio, etc
+let model: OpenAITranscriptionModelType = .whisper
+
+do {
+    for try await newMessage in try await openAI.createTranscription(model: model,
+                                                                    file: fileData,
+                                                                    language: "en",
+                                                                    prompt: "",
+                                                                    responseFormat: .mp3,
+                                                                    temperature: 1.0) {
+        print("Received Transcription \(newMessage)")
+        await MainActor.run {
+            isLoading = false
+            transcription = newMessage.text
+        }
+    }
+} catch {
+    print(error.localizedDescription)
+}
+```
+
 ## [Models](https://platform.openai.com/docs/api-reference/models)
 List and describe the various models available in the API. You can refer to the Models documentation to understand what models are available and the differences between them.
 
