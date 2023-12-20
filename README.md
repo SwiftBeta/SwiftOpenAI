@@ -12,6 +12,27 @@
 <br/>
 [![Discord](https://img.shields.io/discord/922567653778944031?style=social&label=Discord&logo=discord)](https://www.swiftbeta.com/discord)
 
+This is a Swift community-driven repository for interfacing with the [OpenAI](https://platform.openai.com/docs/api-reference/) public API. 
+
+- [Introduction](#introduction)
+- [Installation](#%EF%B8%8F-installation)
+- [Usage](#-usage)
+    - [Secure your API Key using a .plist](#secure-your-api-key-using-a-plist)
+    - [Audio](#audio)
+        - [Audio Text To Speech](#secure-your-api-key-using-a-plist)
+        - [Audio Transcriptions](#audio-transcriptions)
+    - [Models](#models)
+        - [List Models](#list-models)
+    - [Completions](#completions)
+    - [Chats](#chats)
+        - [Chats Streaming](#chatcompletions-with-stream)
+        - [Chats without Streaming](#chatcompletions-without-stream)
+    - [Images](#images)
+        - [Create Image](#create-image)
+    - [Embeddings](#embeddings)
+    - [Moderations](#moderations)
+- [License](#-license)
+
 ## Introduction
 
 `SwiftOpenAI` is a (community-maintained) powerful and easy-to-use Swift SDK designed to seamlessly integrate with `OpenAI's API`. The main goal of this SDK is to simplify the process of accessing and interacting with OpenAI's cutting-edge AI models, such as GPT-4, GPT-3, and future models, all within your Swift applications.
@@ -69,8 +90,8 @@ struct Config {
 
 var openAI = SwiftOpenAI(apiKey: Config.openAIKey)
 ```
-
-## [Audio Text To Speech](https://platform.openai.com/docs/api-reference/audio/createSpeech)
+## Audio
+### [Audio Text To Speech](https://platform.openai.com/docs/api-reference/audio/createSpeech)
 Generates audio from the input text.
 
 ```swift
@@ -98,7 +119,7 @@ do {
 ## [Audio Transcriptions](https://platform.openai.com/docs/api-reference/audio/createTranscription)
 Transcribes audio into the input language.
 
-```
+```swift
 let fileData = // Data fromyour video, audio, etc
 let model: OpenAITranscriptionModelType = .whisper
 
@@ -119,8 +140,8 @@ do {
     print(error.localizedDescription)
 }
 ```
-
-## [Models](https://platform.openai.com/docs/api-reference/models)
+## Models
+### [List Models](https://platform.openai.com/docs/api-reference/models)
 List and describe the various models available in the API. You can refer to the Models documentation to understand what models are available and the differences between them.
 
 ```swift
@@ -146,8 +167,8 @@ do {
     print("Error: \(error)")
 }
 ```
-
-## [ChatCompletions with Stream](https://platform.openai.com/docs/api-reference/chat/create)
+## Chats
+### [ChatCompletions with Stream](https://platform.openai.com/docs/api-reference/chat/create)
 Given a chat conversation, the model will return a chat completion response.
 
 ```swift
@@ -168,7 +189,7 @@ do {
 }
 ```
 
-## [ChatCompletions without Stream](https://platform.openai.com/docs/api-reference/chat/create)
+### [ChatCompletions without Stream](https://platform.openai.com/docs/api-reference/chat/create)
 Given a chat conversation, the model will return a chat completion response.
 
 ```swift
@@ -185,8 +206,8 @@ do {
     print("Error: \(error)")
 }
 ```
-
-## [Create Image with DALL·E 3](https://platform.openai.com/docs/api-reference/images/create)
+## Images
+### [Create Image](https://platform.openai.com/docs/api-reference/images/create)
 Given a prompt and/or an input image, the model will generate a new image.
 
 ```swift
