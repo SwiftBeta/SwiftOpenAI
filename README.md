@@ -27,6 +27,7 @@ This is a Swift community-driven repository for interfacing with the [OpenAI](ht
     - [Chats](#chats)
         - [Chats Streaming](#chatcompletions-with-stream)
         - [Chats without Streaming](#chatcompletions-without-stream)
+        - [ChatCompletions with Image Input](#chatcompletions-with-image-input)
     - [Images](#images)
         - [Create Image](#create-image)
     - [Embeddings](#embeddings)
@@ -206,6 +207,34 @@ do {
     print("Error: \(error)")
 }
 ```
+
+### [ChatCompletions with Image Input](https://platform.openai.com/docs/api-reference/chat/create)
+Given a chat conversation, the model will return a chat completion response.
+
+```swift
+let message = "What appears in the photo?"
+let imageVisionURL = "https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/M31bobo.jpg/640px-M31bobo.jpg"
+
+do {
+    let myMessage = MessageChatImageInput(text: message,
+                                          imageURL: imageVisionURL,
+                                          role: .user)
+                            
+    let optionalParameters: ChatCompletionsOptionalParameters = .init(temperature: 0.5, stop: ["stopstring"], stream: false, maxTokens: 1200)
+    
+    let result = try await openAI.createChatCompletionsWithImageInput(model: .gpt4(.gpt_4_vision_preview),
+                                                                                     messages: [myMessage],
+                                                                                     optionalParameters: optionalParameters)
+    
+    print("Result \(result?.choices.first?.message)")
+    self.message = result?.choices.first?.message.content ?? "No value"
+    self.isLoading = false
+    
+} catch {
+    print("Error: \(error)")
+}
+```
+
 ## Images
 ### [Create Image](https://platform.openai.com/docs/api-reference/images/create)
 Given a prompt and/or an input image, the model will generate a new image.
