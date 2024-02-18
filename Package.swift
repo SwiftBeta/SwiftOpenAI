@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.7.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -13,7 +13,6 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.2.0"),
-        //.package(url: "https://github.com/realm/SwiftLint", from: "0.53.0")
     ],
     targets: [
         .target(
@@ -25,6 +24,6 @@ let package = Package(
             dependencies: ["SwiftOpenAI"],
             resources: [
                 .process("OpenAITests/Unit Tests/JSON")
-            ]),
+            ])
     ]
 )
