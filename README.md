@@ -15,7 +15,8 @@
 This is a Swift community-driven repository for interfacing with the [OpenAI](https://platform.openai.com/docs/api-reference/) public API. 
 
 - [Introduction](#introduction)
-- [Installation](#%EF%B8%8F-installation)
+- [Demo App](#demo-app)
+- [Installation New Project](#%EF%B8%8F-installation-new-project)
 - [Usage](#-usage)
     - [Secure your API Key using a .plist](#secure-your-api-key-using-a-plist)
     - [Images](#images)
@@ -36,11 +37,23 @@ This is a Swift community-driven repository for interfacing with the [OpenAI](ht
 
 ## Introduction
 
-`SwiftOpenAI` is a (community-maintained) powerful and easy-to-use Swift SDK designed to seamlessly integrate with `OpenAI's API`. The main goal of this SDK is to simplify the process of accessing and interacting with OpenAI's cutting-edge AI models, such as GPT-4, GPT-3, and future models, all within your Swift applications.
+`SwiftOpenAI` is a community-maintained, powerful, and easy-to-use Swift SDK. It is designed to integrate seamlessly with OpenAI's API. The main goal of this SDK is to make it simpler to access and interact with OpenAI's advanced AI models, such as GPT-4, GPT-3, and future models, all within your Swift applications.
 
-![SwiftOpenAI Demo](https://github.com/SwiftBeta/SwiftOpenAI/assets/74316958/7a3d40c7-4859-454e-b4df-66d31a2339b3)
+To help developers, I have created this demo app. You only need to add your OpenAI API Key in the SwiftOpenAI.plist. Inside the demo app, you have access to the core features of the SDK.
 
-## ⚙️ Installation
+![SwiftOpenAI Demo](https://github.com/SwiftBeta/SwiftOpenAI/assets/74316958/8a93f3ad-f895-4471-b8af-196dc052d336)
+
+## Demo App
+
+To try the demo app, you only need to open Demo.xcodeproj.
+
+<img width="623" alt="Demo" src="https://github.com/SwiftBeta/SwiftOpenAI/assets/74316958/3f3d6765-5a96-48d3-9173-46bb2923dca1">
+
+After that, you will see the project. The next step is to compile your project on one of the simulators (or a real device)
+
+<img width="2672" alt="Xcode Demo" src="https://github.com/SwiftBeta/SwiftOpenAI/assets/74316958/279ba6f9-474e-4512-a802-fbfae95f2398">
+
+## ⚙️ Installation New Project
 
 Open Xcode and open the `Swift Package Manager` section, then paste the Github URL from this repository (Copy -> https://github.com/SwiftBeta/SwiftOpenAI.git) to install the Package in your project.
 
