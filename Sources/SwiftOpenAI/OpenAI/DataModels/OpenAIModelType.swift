@@ -51,4 +51,6 @@ public enum Dalle: String {
 
 public enum EmbeddingModel: String {
     case text_embedding_ada_002 = "text-embedding-ada-002"
+    case text_embedding_3_small = "text-embedding-3-small"
+    case text_embedding_3_large = "text-embedding-3-large"
 }
