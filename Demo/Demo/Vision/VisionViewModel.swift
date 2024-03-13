@@ -1,5 +1,7 @@
 import Foundation
 import SwiftOpenAI
+import PhotosUI
+import SwiftUI
 
 @Observable
 final class VisionViewModel {
@@ -8,13 +10,25 @@ final class VisionViewModel {
     var message: String = ""
     var isLoading = false
     
+    // Local Image
+    var photoSelection: PhotosPickerItem? = .init(itemIdentifier: "")
+    var currentData: Data?
+    
     @MainActor
     func send(message: String) async {
         isLoading = true
 
         do {
+            let imageValue: String
+            if let data = currentData {
+                let base64Image = data.base64EncodedString()
+                imageValue = "data:image/jpeg;base64,\(base64Image)"
+            } else {
+                imageValue = imageVisionURL
+            }
+            
             let myMessage = MessageChatImageInput(text: message,
-                                                  imageURL: imageVisionURL,
+                                                  imageURL: imageValue,
                                                   role: .user)
                                     
             let optionalParameters: ChatCompletionsOptionalParameters = .init(temperature: 0.5, 
@@ -25,7 +39,7 @@ final class VisionViewModel {
             let result = try await openAI.createChatCompletionsWithImageInput(model: .gpt4(.gpt_4_vision_preview),
                                                                                              messages: [myMessage],
                                                                                              optionalParameters: optionalParameters)
-            
+            self.currentData = nil
             self.message = result?.choices.first?.message.content ?? "No value"
             self.isLoading = false
             
